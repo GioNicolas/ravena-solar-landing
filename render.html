@@ -1,0 +1,26 @@
+<!doctype html>
+<!-- Só para scripts/render-stills.mjs (servido pelo Vite em dev; não entra no build). -->
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>render</title>
+  <style>html, body { margin: 0; background: transparent; } #c { position: fixed; inset: 0; }</style>
+</head>
+<body>
+  <div id="c"></div>
+  <script type="module">
+    import { criarCena } from '/src/cena/cena.js';
+    const p = new URLSearchParams(location.search);
+    const cena = await criarCena(document.getElementById('c'), {
+      tiro: p.get('tiro') ?? 'hero',
+      still: true,
+      fundo: p.get('fundo'),
+    });
+    cena.definirEstado(p.get('estado') ?? 'vazio', true);
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+    cena.renderizar();
+    window.__imagem = (tipo, q) => cena.renderer.domElement.toDataURL(tipo, q);
+    window.__pronto = true;
+  </script>
+</body>
+</html>

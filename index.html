@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ravena Solar · Energia solar para casas em Sorocaba e região</title>
+  <meta name="description" content="Sua conta de luz cai de 75% a 90% com energia solar instalada por equipe própria em Sorocaba, Votorantim, Itu e Salto. Simule com o valor da sua conta.">
+  <meta name="theme-color" content="#FBF7F0">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Ravena Solar · Sua conta de luz cai de 75% a 90%">
+  <meta property="og:description" content="Energia solar residencial em Sorocaba e região, com equipe própria. Simule com o valor da sua conta.">
+  <meta property="og:image" content="/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/cena-poster.webp" as="image" media="(min-width: 960px)">
+  <script>document.documentElement.classList.add('js')</script>
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+  <a class="pular" href="#pedido">Pular para o pedido de simulação</a>
+
+  <header class="topo-barra">
+    <div class="moldura topo-barra__in">
+      <a href="#topo" class="marca" aria-label="Ravena Solar, início">
+        <img src="/src/assets/logo.svg" alt="Ravena Solar" width="150" height="40">
+      </a>
+      <a class="botao botao--pequeno" href="#pedido" data-cta>Pedir simulação</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. Topo com simulador -->
+    <section class="hero" id="topo" aria-labelledby="hero-titulo">
+      <div class="moldura hero__grade">
+        <div class="hero__texto">
+          <p class="sobretitulo">Energia solar para casas em Sorocaba, Votorantim, Itu e Salto</p>
+          <h1 id="hero-titulo">Sua conta de luz cai de <span class="destaque">75% a 90%</span>. <span class="h1__2">E quem instalou continua por perto.</span></h1>
+          <p class="hero__apoio">Projeto, homologação na CPFL e instalação com equipe própria, de carteira assinada. 412 casas ligadas na região. Para contas acima de <strong>R$&nbsp;450</strong> por mês.</p>
+
+          <form class="sim" id="simulador" action="#pedido" novalidate>
+            <label class="sim__rotulo" for="sim-conta">Quanto você paga de luz por mês, em média?</label>
+            <div class="sim__campo">
+              <span class="sim__moeda" aria-hidden="true">R$</span>
+              <input id="sim-conta" name="conta" inputmode="numeric" autocomplete="off" placeholder="0" maxlength="8" aria-describedby="sim-saida">
+            </div>
+
+            <div class="sim__saida" id="sim-saida" aria-live="polite">
+              <p class="sim__dica" data-estado="vazio">Digite o valor e veja quanto a sua conta pode cair. Sem cadastro.</p>
+
+              <div class="sim__resultado" data-estado="compensa" hidden>
+                <p class="sim__linha">Sua conta pode ficar entre</p>
+                <p class="sim__valor"><span data-campo="depois-min">—</span> <span class="sim__e">e</span> <span data-campo="depois-max">—</span><span class="sim__mes">/mês</span></p>
+                <p class="sim__economia">Economia estimada de <strong data-campo="ano-min">—</strong> a <strong data-campo="ano-max">—</strong> por ano.</p>
+                <a class="botao" href="#pedido" data-cta data-leva-conta>Pedir minha simulação</a>
+                <p class="sim__nota">Estimativa com a faixa média dos nossos clientes (75% a 90%). A conta não zera: sempre resta a taxa mínima da distribuidora e o custo do fio. O número exato sai da simulação com a sua conta.</p>
+              </div>
+
+              <div class="sim__aviso" data-estado="nao-compensa" hidden>
+                <p class="sim__linha"><strong>Com conta abaixo de R$&nbsp;450, o sistema não se paga em prazo razoável.</strong></p>
+                <p>A gente mesmo desaconselha, e preferimos dizer isso agora a fazer você esperar uma proposta. Se a sua conta subir, volte aqui.</p>
+              </div>
+            </div>
+            <noscript><a class="botao" href="#pedido">Pedir simulação</a></noscript>
+          </form>
+        </div>
+
+        <figure class="hero__cena cena" aria-hidden="true">
+          <img class="cena__poster" src="/cena-poster.webp" srcset="/cena-poster-800.webp 800w, /cena-poster.webp 1200w" sizes="(min-width: 960px) 620px, min(100vw - 40px, 460px)" alt="" width="1200" height="1200" fetchpriority="low">
+          <div class="cena__canvas" id="cena"></div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 2. Caso real -->
+    <section class="secao caso" id="caso" aria-labelledby="caso-titulo">
+      <div class="moldura caso__grade">
+        <div class="caso__texto revela">
+          <p class="sobretitulo">Uma casa em Sorocaba</p>
+          <h2 id="caso-titulo">De R$&nbsp;780 para R$&nbsp;118 por mês.</h2>
+          <p>Sistema de 6,4&nbsp;kWp, ligado em março de 2025. Os R$&nbsp;118 são a média das contas dos últimos 12 meses, conferida.</p>
+          <p>Repare que não é zero. Sempre resta a taxa mínima da distribuidora e o custo do fio. Quem promete conta zerada está prometendo o que não existe.</p>
+        </div>
+
+        <div class="contas revela" role="img" aria-label="Conta de luz antes: R$ 780 por mês. Depois: média de R$ 118 por mês nos últimos 12 meses, 85% menor.">
+          <article class="conta conta--antes">
+            <header class="conta__topo"><span>Conta de energia</span><span>Antes</span></header>
+            <p class="conta__rotulo">Valor mensal</p>
+            <p class="conta__valor">R$&nbsp;780<small>,00</small></p>
+            <div class="conta__linhas"><i></i><i></i><i></i></div>
+          </article>
+          <article class="conta conta--depois">
+            <header class="conta__topo"><span>Conta de energia</span><span>Depois</span></header>
+            <p class="conta__rotulo">Média dos últimos 12 meses</p>
+            <p class="conta__valor">R$&nbsp;118<small>,00</small></p>
+            <div class="conta__linhas"><i></i><i></i><i></i></div>
+            <span class="conta__selo">−85%</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. A gente não some -->
+    <section class="secao confianca" id="confianca" aria-labelledby="confianca-titulo">
+      <div class="moldura">
+        <div class="cabeca revela">
+          <p class="sobretitulo">A pergunta que mais ouvimos</p>
+          <h2 id="confianca-titulo">“Como sei que vocês não vão sumir daqui a dois anos?”</h2>
+          <p class="cabeca__apoio">É justa. Na região, pelo menos três empresas fecharam deixando obra pela metade. A nossa resposta está nos números.</p>
+        </div>
+
+        <dl class="numeros revela">
+          <div class="numero">
+            <dt>Anos de empresa, com sede em Sorocaba</dt>
+            <dd>6</dd>
+          </div>
+          <div class="numero">
+            <dt>Sistemas residenciais instalados</dt>
+            <dd>412</dd>
+          </div>
+          <div class="numero">
+            <dt>Pessoas, todas com carteira assinada. Quem sobe no seu telhado é da Ravena.</dt>
+            <dd>11</dd>
+          </div>
+          <div class="numero">
+            <dt>Nota no Google, com 137 avaliações</dt>
+            <dd>4,8<span class="estrela" aria-hidden="true">★</span></dd>
+          </div>
+        </dl>
+
+        <ul class="garantias-lista revela">
+          <li><strong>Não somos revenda.</strong> Projeto, homologação, instalação e acompanhamento são nossos. Não terceirizamos a obra.</li>
+          <li><strong>Assistência técnica autorizada</strong> da marca de inversor que instalamos.</li>
+          <li><strong>Depois de ligado, a gente acompanha.</strong> Olhamos a produção no primeiro ano e ligamos para você se ela cair fora do previsto.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4. O telhado -->
+    <section class="secao telhado" id="telhado" aria-labelledby="telhado-titulo">
+      <div class="moldura telhado__grade">
+        <figure class="telhado__imagem revela">
+          <img src="/telhado-close.webp" srcset="/telhado-close-900.webp 900w, /telhado-close.webp 1200w" sizes="(min-width: 900px) 600px, 100vw" alt="Ilustração em 3D de painéis solares instalados sobre telhas de barro." width="1200" height="900" loading="lazy" decoding="async">
+          <figcaption>Ilustração</figcaption>
+        </figure>
+        <div class="telhado__texto revela">
+          <p class="sobretitulo">O segundo medo</p>
+          <h2 id="telhado-titulo">“Isso não vai estragar meu telhado?”</h2>
+          <p>A instalação tem <strong>5 anos de garantia nossa</strong>, e ela cobre qualquer infiltração causada pela obra, inclusive em telha de barro.</p>
+          <p>Antes de qualquer proposta, a visita técnica mede o seu telhado. Sem custo e sem compromisso.</p>
+          <p class="nota-linha">Além disso: 25 anos de garantia de performance dos painéis e 10 anos do inversor, pelos fabricantes.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Quanto custa -->
+    <section class="secao custo" id="custo" aria-labelledby="custo-titulo">
+      <div class="moldura">
+        <div class="cabeca revela">
+          <p class="sobretitulo">Dinheiro</p>
+          <h2 id="custo-titulo">Quanto custa e quando se paga.</h2>
+        </div>
+
+        <div class="custo__grade revela">
+          <div class="custo__item">
+            <p class="custo__numero">R$&nbsp;14 mil <span>a</span> R$&nbsp;19 mil</p>
+            <p>É o investimento para o tamanho típico de uma casa. A proposta vem em três tamanhos para você comparar.</p>
+          </div>
+          <div class="custo__item">
+            <p class="custo__numero">Entrada zero</p>
+            <p>É possível, com os dois bancos com que trabalhamos. Na maioria dos casos, a parcela fica próxima do que você já paga de luz.</p>
+          </div>
+          <div class="custo__item">
+            <p class="custo__numero">3 a 4 anos</p>
+            <p>É o tempo que o investimento tem levado para se pagar. O sistema dura mais de 25.</p>
+          </div>
+        </div>
+
+        <figure class="linha-tempo revela">
+          <svg viewBox="0 0 640 96" role="img" aria-labelledby="lt-titulo">
+            <title id="lt-titulo">Linha do tempo: o investimento se paga entre o terceiro e o quarto ano, e o sistema dura mais de 25 anos.</title>
+            <rect class="lt__vida" x="16" y="40" width="608" height="14" rx="7"/>
+            <rect class="lt__pagando" x="16" y="40" width="97" height="14" rx="7"/>
+            <rect class="lt__retorno" x="89" y="34" width="24" height="26" rx="5"/>
+            <g class="lt__marcas">
+              <line x1="16" y1="64" x2="16" y2="70"/><line x1="113" y1="64" x2="113" y2="70"/><line x1="624" y1="64" x2="624" y2="70"/>
+            </g>
+            <text class="lt__txt" x="16" y="88">hoje</text>
+            <text class="lt__txt lt__txt--forte" x="101" y="24" text-anchor="middle">se paga em 3–4 anos</text>
+            <text class="lt__txt" x="624" y="88" text-anchor="end">mais de 25 anos de sistema</text>
+          </svg>
+        </figure>
+
+        <aside class="lei revela" aria-labelledby="lei-titulo">
+          <h3 id="lei-titulo">“Ouvi dizer que taxaram o sol. Ainda vale a pena?”</h3>
+          <p>Desde a Lei 14.300, existe uma cobrança sobre a energia que a sua casa injeta na rede, e ela aumenta ano a ano. Continua valendo a pena, mas o cálculo mudou. É por isso que a simulação de verdade é feita com a sua conta, por uma pessoa, e não com regra de bolso.</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 6. Do pedido à energia ligada -->
+    <section class="secao etapas" id="etapas" aria-labelledby="etapas-titulo">
+      <div class="moldura">
+        <div class="cabeca revela">
+          <p class="sobretitulo">Como funciona</p>
+          <h2 id="etapas-titulo">Do pedido à energia ligada.</h2>
+          <p class="cabeca__apoio">Pedir a simulação não compromete nada. Você só decide depois de ver a proposta.</p>
+        </div>
+
+        <ol class="passos revela">
+          <li class="passo">
+            <span class="passo__n" aria-hidden="true">1</span>
+            <h3>Simulação</h3>
+            <p>Resposta no seu WhatsApp no mesmo dia útil.</p>
+          </li>
+          <li class="passo">
+            <span class="passo__n" aria-hidden="true">2</span>
+            <h3>Visita técnica</h3>
+            <p>Medimos o seu telhado. Sem custo e sem compromisso.</p>
+          </li>
+          <li class="passo">
+            <span class="passo__n" aria-hidden="true">3</span>
+            <h3>Proposta</h3>
+            <p>Três tamanhos de sistema para você comparar.</p>
+          </li>
+          <li class="passo">
+            <span class="passo__n" aria-hidden="true">4</span>
+            <h3>Instalação</h3>
+            <p>Dois dias no telhado, com a nossa equipe. Depois, vistoria e ligação.</p>
+          </li>
+        </ol>
+
+        <div class="prazo revela">
+          <div class="prazo__barra" aria-hidden="true">
+            <span class="prazo__cpfl">projeto e homologação na CPFL</span>
+            <span class="prazo__obra">instalação</span>
+          </div>
+          <p><strong>45 a 60 dias</strong> da assinatura ao sistema ligado. A maior parte é projeto e homologação na CPFL, a etapa que não depende de nós. A instalação em si leva dois dias.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Dúvidas -->
+    <section class="secao duvidas" id="duvidas" aria-labelledby="duvidas-titulo">
+      <div class="moldura duvidas__grade">
+        <div class="cabeca revela">
+          <p class="sobretitulo">Antes de pedir</p>
+          <h2 id="duvidas-titulo">Outras dúvidas.</h2>
+        </div>
+        <div class="faq revela">
+          <details>
+            <summary>E se eu mudar de casa?</summary>
+            <p>O sistema valoriza o imóvel e pode ser transferido.</p>
+          </details>
+          <details>
+            <summary>E à noite e em dia nublado?</summary>
+            <p>Em dia nublado o sistema produz menos; à noite, não produz. O que compensa é o crédito que a sua casa acumula com a energia que sobra ao longo do mês.</p>
+          </details>
+          <details>
+            <summary>Preciso de bateria?</summary>
+            <p>Não. Para casa ligada na rede, a bateria não é necessária.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Pedido -->
+    <section class="pedido" id="pedido" aria-labelledby="pedido-titulo">
+      <div class="moldura pedido__grade">
+        <div class="pedido__texto">
+          <p class="sobretitulo sobretitulo--claro">Simulação</p>
+          <h2 id="pedido-titulo">Peça a sua simulação.</h2>
+          <p>Respondemos no seu WhatsApp no mesmo dia útil. Se puder, mande a foto ou o PDF da conta: a simulação sai mais precisa.</p>
+          <p class="pedido__regiao">Atendemos casas em Sorocaba, Votorantim, Itu, Salto e cidades num raio de 80&nbsp;km.</p>
+        </div>
+
+        <form class="form" id="form-pedido" action="/api/simulacao" method="post" enctype="multipart/form-data" novalidate>
+          <div class="form__campo">
+            <label for="f-nome">Nome</label>
+            <input id="f-nome" name="nome" autocomplete="name" required>
+            <p class="form__erro" id="erro-nome" hidden></p>
+          </div>
+          <div class="form__campo">
+            <label for="f-whatsapp">WhatsApp com DDD</label>
+            <input id="f-whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(15) 99123-4567" required>
+            <p class="form__erro" id="erro-whatsapp" hidden></p>
+          </div>
+          <div class="form__dupla">
+            <div class="form__campo">
+              <label for="f-cidade">Cidade</label>
+              <select id="f-cidade" name="cidade" required>
+                <option value="" selected disabled>Escolha</option>
+                <option>Sorocaba</option>
+                <option>Votorantim</option>
+                <option>Itu</option>
+                <option>Salto</option>
+                <option>Outra cidade da região</option>
+              </select>
+              <p class="form__erro" id="erro-cidade" hidden></p>
+            </div>
+            <div class="form__campo">
+              <label for="f-conta">Conta média por mês</label>
+              <div class="form__reais">
+                <span aria-hidden="true">R$</span>
+                <input id="f-conta" name="conta" inputmode="numeric" autocomplete="off" placeholder="0" maxlength="8" required>
+              </div>
+              <p class="form__erro" id="erro-conta" hidden></p>
+              <p class="form__aviso" id="aviso-conta" hidden>Abaixo de R$&nbsp;450, o sistema não se paga em prazo razoável e nós mesmos desaconselhamos. Se quiser, envie mesmo assim.</p>
+            </div>
+          </div>
+          <div class="form__campo">
+            <span class="form__rotulo" id="rotulo-anexo">Foto ou PDF da conta <span class="opcional">opcional</span></span>
+            <label class="anexo" for="f-anexo">
+              <input id="f-anexo" name="anexo" type="file" accept="image/*,application/pdf" aria-labelledby="rotulo-anexo">
+              <span class="anexo__txt" data-anexo-nome>Escolher arquivo</span>
+            </label>
+            <p class="form__erro" id="erro-anexo" hidden></p>
+          </div>
+          <div class="form__isca" aria-hidden="true">
+            <label for="f-empresa">Empresa</label>
+            <input id="f-empresa" name="empresa" tabindex="-1" autocomplete="off">
+          </div>
+
+          <button class="botao botao--largo" type="submit">Pedir simulação</button>
+          <p class="form__geral" id="erro-geral" role="alert" hidden></p>
+        </form>
+
+        <div class="enviado" id="enviado" tabindex="-1" hidden>
+          <p class="enviado__marca" aria-hidden="true">✓</p>
+          <h3>Pedido recebido<span data-enviado-nome></span>.</h3>
+          <p>A Ravena responde no seu WhatsApp no mesmo dia útil. Se ainda não mandou a foto da conta, pode mandar por lá.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="moldura rodape__in">
+      <img src="/src/assets/logo.svg" alt="Ravena Solar" width="120" height="32" loading="lazy">
+      <p>Integradora de energia solar residencial · Sorocaba (SP)<br>Sorocaba, Votorantim, Itu e Salto · Distribuidora: CPFL</p>
+    </div>
+  </footer>
+
+  <a class="cta-fixo botao" href="#pedido" data-cta hidden>Pedir simulação</a>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<!-- Imagem de compartilhamento (1200x630), fotografada por scripts/render-stills.mjs. Não entra no build. -->
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>og</title>
+  <style>
+    html, body { margin: 0; }
+    body {
+      width: 1200px; height: 630px; overflow: hidden; position: relative;
+      background: #fbf7f0; color: var(--navy);
+      font-family: 'Geist Variable', system-ui, sans-serif;
+    }
+    .luz { position: absolute; right: -200px; top: -260px; width: 900px; height: 900px; background: radial-gradient(closest-side, color-mix(in srgb, var(--sun) 30%, transparent), transparent); }
+    .cena { position: absolute; right: -40px; top: 10px; width: 700px; height: 610px; object-fit: contain; }
+    .txt { position: absolute; left: 72px; top: 70px; width: 560px; }
+    img.logo { width: 190px; margin-bottom: 64px; }
+    h1 { font-size: 64px; line-height: 1.04; letter-spacing: -0.035em; font-weight: 640; margin: 0 0 22px; }
+    h1 span { background: linear-gradient(transparent 62%, color-mix(in srgb, var(--sun) 55%, transparent) 62%, color-mix(in srgb, var(--sun) 55%, transparent) 92%, transparent 92%); }
+    p { font-size: 25px; line-height: 1.4; margin: 0; color: color-mix(in srgb, var(--navy) 74%, #fbf7f0); }
+  </style>
+  <script type="module">import '@fontsource-variable/geist';</script>
+</head>
+<body>
+  <div class="luz"></div>
+  <img class="cena" src="/cena-og.png" alt="">
+  <div class="txt">
+    <img class="logo" src="/src/assets/logo.svg" alt="">
+    <h1>Sua conta de luz cai de <span>75% a 90%</span>.</h1>
+    <p>Energia solar com equipe própria em Sorocaba, Votorantim, Itu e Salto.</p>
+  </div>
+</body>
+</html>
