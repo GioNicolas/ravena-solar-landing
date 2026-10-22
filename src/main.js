@@ -165,6 +165,36 @@ addEventListener('scroll', () => {
 addEventListener('resize', atualizarJornada);
 atualizarJornada();
 
+// ---------- Dúvidas: abrir e fechar com a altura animada ----------
+// Sem JavaScript ou com movimento reduzido, o <details> abre e fecha do jeito nativo.
+if (!reduzMovimento) {
+  document.querySelectorAll('.faq details').forEach((d) => {
+    const corpo = d.querySelector('.faq__corpo');
+    let anim = null;
+    d.querySelector('summary').addEventListener('click', (e) => {
+      e.preventDefault();
+      const abrir = !d.open || d.classList.contains('fechando');
+      // Fechado, o Chrome ainda mede a altura cheia do conteúdo oculto: parte de 0.
+      const de = d.open ? corpo.getBoundingClientRect().height : 0;
+      anim?.cancel();
+      d.classList.toggle('fechando', !abrir);
+      d.open = true;
+      const ate = abrir ? corpo.scrollHeight : 0;
+      anim = corpo.animate(
+        { height: [`${de}px`, `${ate}px`], opacity: abrir ? [0.2, 1] : [1, 0], transform: abrir ? ['translateY(-6px)', 'none'] : ['none', 'translateY(-6px)'] },
+        { duration: abrir ? 420 : 320, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+      );
+      anim.onfinish = () => {
+        anim = null;
+        if (!abrir) {
+          d.open = false;
+          d.classList.remove('fechando');
+        }
+      };
+    });
+  });
+}
+
 // ---------- Botões que puxam o cursor (só mouse) ----------
 if (!reduzMovimento && matchMedia('(hover: hover) and (pointer: fine)').matches) {
   document.querySelectorAll('.botao:not(.cta-fixo)').forEach((b) => {

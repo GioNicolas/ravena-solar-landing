@@ -71,7 +71,7 @@ Neutros derivados, não da marca: papel `#FBF7F0`, papel 2 `#F3ECE0`, papel 3 `#
    - O trilho se preenche conforme a página rola, com um ponto de luz na ponta. Cada marco acende quando o trilho passa por ele.
    - O cálculo só **lê** a posição da rolagem: a página nunca é presa nem rolada pelo script.
    - No desktop, os cartões alternam dos dois lados e se encaixam em zigue-zague; no celular, o trilho fica à esquerda.
-7. **Dúvidas.** Três `<details>`, sem JavaScript.
+7. **Dúvidas.** Três `<details>` que entram em sequência ao aparecer. Com JavaScript, abrir e fechar animam a altura da resposta (420 ms para abrir, 320 ms para fechar) e o ícone gira já no clique; sem JavaScript ou com movimento reduzido, o `<details>` abre do jeito nativo.
 8. **Pedido** (faixa marinho).
    - À esquerda: texto e mapa da região em SVG. No desktop, o mapa (até 300px, com a legenda ao lado) desce até a base do formulário, para as duas colunas terminarem juntas.
    - À direita: o formulário.

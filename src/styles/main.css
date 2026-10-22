@@ -433,8 +433,14 @@ html:not(.js) .marco__card { opacity: 1; transform: none; }
   background: var(--branco) center / 12px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M6 1v10M1 6h10' stroke='%23000' stroke-opacity='.6' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
   border: 1px solid var(--linha); transition: transform 0.35s var(--ease), background-color 0.2s;
 }
-.faq details[open] summary::after { transform: rotate(45deg); background-color: var(--sun-suave); }
-.faq details p { color: var(--tinta-2); padding-bottom: 22px; max-width: 38em; animation: surge 0.4s var(--ease); }
+/* O ícone gira já no clique; no fechamento, .fechando desfaz antes de a altura terminar de animar. */
+.faq details[open]:not(.fechando) summary::after { transform: rotate(45deg); background-color: var(--sun-suave); }
+.faq details { transition: background-color 0.3s; }
+.faq details[open]:not(.fechando) summary { color: color-mix(in srgb, var(--navy) 85%, var(--ember)); }
+.faq__corpo { overflow: hidden; }
+.faq details.revela:nth-child(2) { transition-delay: 0.08s; }
+.faq details.revela:nth-child(3) { transition-delay: 0.16s; }
+.faq details p { color: var(--tinta-2); padding-bottom: 22px; max-width: 38em; }
 
 /* 8. Pedido e mapa */
 .pedido { background: var(--navy); color: var(--papel); padding-block: var(--secao); position: relative; overflow: clip; }
