@@ -103,6 +103,22 @@ p { text-wrap: pretty; }
 }
 .topo-barra.rolou { border-bottom-color: var(--linha); }
 .topo-barra__in { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
+/* Menu de seções: só leva a partes da própria página; a única ação continua sendo o pedido. */
+.menu { display: none; }
+@media (min-width: 960px) {
+  .menu { display: flex; gap: 4px; }
+  .menu a {
+    position: relative; padding: 8px 14px; border-radius: 999px; font-size: 0.9375rem; font-weight: 560;
+    color: var(--tinta-2); text-decoration: none; transition: color 0.2s, background 0.2s;
+  }
+  .menu a:hover { color: var(--tinta); background: color-mix(in srgb, var(--navy) 6%, transparent); }
+  .menu a.atual { color: var(--tinta); }
+  .menu a::after {
+    content: ''; position: absolute; left: 14px; right: 14px; bottom: 3px; height: 2px; border-radius: 1px;
+    background: var(--sun); transform: scaleX(0); transition: transform 0.35s var(--ease);
+  }
+  .menu a.atual::after { transform: scaleX(1); }
+}
 .marca img { width: 132px; height: auto; }
 @media (min-width: 720px) { .marca img { width: 150px; } }
 

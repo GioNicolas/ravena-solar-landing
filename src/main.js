@@ -103,6 +103,20 @@ vigiaCta.observe(sim);
 vigiaCta.observe(document.getElementById('pedido'));
 addEventListener('scroll', () => barra.classList.toggle('rolou', scrollY > 8), { passive: true });
 
+// ---------- Menu: marca a seção que está na tela ----------
+const linksMenu = [...document.querySelectorAll('.menu a')];
+const secoesMenu = linksMenu.map((a) => document.querySelector(a.getAttribute('href')));
+// Marca a seção que cruza o meio da tela; fora das quatro (topo, caso, telhado, pedido), nenhuma.
+const espiao = new IntersectionObserver(() => {
+  const meio = innerHeight / 2;
+  const atual = secoesMenu.find((s) => {
+    const r = s.getBoundingClientRect();
+    return r.top < meio && r.bottom > meio;
+  });
+  linksMenu.forEach((a, k) => a.classList.toggle('atual', secoesMenu[k] === atual));
+}, { rootMargin: '-50% 0px -50% 0px' });
+secoesMenu.forEach((s) => espiao.observe(s));
+
 // ---------- Entrada das seções e números ----------
 const revela = new IntersectionObserver(
   (itens) => itens.forEach((i) => {

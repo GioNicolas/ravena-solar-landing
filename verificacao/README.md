@@ -29,6 +29,7 @@ Página gerada (`dist/`) aberta no Edge em duas larguras: **desktop de 1440px** 
 
 | O que foi feito | O que se esperava | Resultado |
 |---|---|---|
+| Clicar em "Quanto custa" no menu (desktop) | Rola até a seção e o link fica marcado | ok: marcado = "Quanto custa" (`desktop-0-menu.png`) |
 | Abrir a página | Simulador na primeira tela; casa 3D no desktop, imagem dela no celular | ok (`*-1-topo.png`); 3D entrou no desktop, imagem no celular |
 | Digitar R$ 300 | Aviso franco, sem botão de pedido; nuvens chegam e a luz cai | ok (`*-2-simulador-300.png`, `desktop-2b-topo-300.png`) |
 | Digitar R$ 780 | Barra "Hoje" R$ 780 e "Com energia solar" R$ 80 a R$ 200 encolhendo; economia de R$ 7.020 a R$ 8.420 por ano; o sol sobe e a energia corre na casa | ok (`*-3-simulador-780.png`, `desktop-3b-topo-780.png`) |

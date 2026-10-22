@@ -33,7 +33,7 @@ Neutros derivados, não da marca: papel `#FBF7F0`, papel 2 `#F3ECE0`, papel 3 `#
 ## Layout
 
 - Largura máxima de 1200px; respiro lateral de 20px no celular e 32px no desktop. Feita para o celular primeiro.
-- Cabeçalho mínimo: logo e um único botão de largura fixa. No celular, um botão fixo de "Pedir simulação" aparece quando o simulador sai da tela e some quando o formulário entra.
+- Cabeçalho: logo, menu de seções e um único botão de largura fixa. O menu (Por que a Ravena · Quanto custa · Como funciona · Dúvidas) só leva a partes da própria página, então não cria uma segunda ação; a seção que cruza o meio da tela fica marcada. Aparece só a partir de 960px; no celular, o botão fixo já cobre a navegação que importa. No celular, um botão fixo de "Pedir simulação" aparece quando o simulador sai da tela e some quando o formulário entra.
 - No build, o CSS vai dentro do HTML (plugin `css-em-linha`): a primeira pintura já sai estilizada.
 
 ## Blocos (na ordem da spec)
