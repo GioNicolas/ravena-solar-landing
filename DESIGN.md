@@ -58,7 +58,9 @@ Neutros derivados, não da marca: papel `#FBF7F0`, papel 2 `#F3ECE0`, papel 3 `#
    - trilhos com ganchos;
    - painéis.
 
-   - Na primeira vez que a figura aparece, as camadas se separam sozinhas e ficam abertas.
+   - Título "E se chover?" e a garantia de 5 anos num destaque marinho com ícone de gota.
+   - Chuva em CSS (34 gotas) cai sobre o telhado montado enquanto a figura está na tela; para quando as camadas se separam e não existe com movimento reduzido.
+   - Na primeira vez que a figura aparece, chove por cerca de 2 s e depois as camadas se separam sozinhas e ficam abertas.
    - Depois disso, passar o mouse separa e tirar o mouse monta. No toque, cada toque alterna; no teclado, Enter ou espaço alternam.
    - Uma dica no canto ("Passe o mouse" ou "Toque", conforme o aparelho) some depois da primeira interação.
    - Os rótulos ("Painel solar", "Estrutura de fixação", "Seu telhado de barro") acompanham as peças e só aparecem com as camadas separadas. Leva o selo "Ilustração".

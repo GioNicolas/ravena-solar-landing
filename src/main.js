@@ -229,13 +229,28 @@ function camadas(separar) {
   if (cena3dTelhado) separar ? cena3dTelhado.separar() : cena3dTelhado.montar();
 }
 
-// Na primeira vez que aparece, abre sozinho e fica aberto. Depois: mouse em cima
+// Na primeira vez que aparece, chove sobre o telhado montado e depois ele abre sozinho e fica aberto. Depois: mouse em cima
 // abre, mouse fora monta; no toque, cada toque alterna; no teclado, foco abre.
 new IntersectionObserver(([i], obs) => {
   if (!i.isIntersecting) return;
   obs.disconnect();
-  setTimeout(() => !explodida.classList.contains('mexeu') && camadas(true), reduzMovimento ? 0 : 500);
+  setTimeout(() => !explodida.classList.contains('mexeu') && camadas(true), reduzMovimento ? 0 : 2400);
 }, { threshold: 0.55 }).observe(explodida);
+
+// Chuva sobre o telhado montado (CSS): gotas espalhadas, só animam com a figura na tela.
+if (!reduzMovimento) {
+  const chuva = explodida.querySelector('.chuva');
+  for (let i = 0; i < 34; i++) {
+    const g = document.createElement('span');
+    g.className = 'gota';
+    g.style.setProperty('--x', `${4 + Math.random() * 92}%`);
+    g.style.setProperty('--v', `${0.7 + Math.random() * 0.5}s`);
+    g.style.setProperty('--d', `${-Math.random() * 1.2}s`);
+    g.style.setProperty('--queda', String(55 + Math.random() * 30)); // % da altura da figura (até o telhado)
+    chuva.append(g);
+  }
+  new IntersectionObserver(([i]) => explodida.classList.toggle('chovendo', i.isIntersecting)).observe(explodida);
+}
 
 const mexeu = () => explodida.classList.add('mexeu');
 explodida.addEventListener('pointerenter', (e) => e.pointerType === 'mouse' && (mexeu(), camadas(true)));

@@ -104,3 +104,6 @@ Regra para qualquer visual ou animação: **precisa trabalhar para um bloco, ou 
   - a vista explodida responde ao mouse e ao toque, em vez de um botão;
   - "quando se paga" virou uma régua de anos, mais fácil de ler que a linha do tempo;
   - os passos e a barra de prazo viraram um único caminho que acompanha a rolagem.
+- **Revisão 4.** Depois de feedback de colegas:
+  - **menos texto em toda a página.** Cada bloco ficou com o número e uma frase curta; explicações que repetiam o número saíram;
+  - **"E se chover?" virou o título do bloco do telhado.** É como o comprador formula o medo de infiltração, o segundo do brief. A garantia de 5 anos ganhou um destaque próprio, e chove sobre a ilustração enquanto o telhado está montado.

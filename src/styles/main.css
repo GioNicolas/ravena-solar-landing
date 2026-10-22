@@ -330,6 +330,36 @@ p { text-wrap: pretty; }
 .telhado__texto p + p { margin-top: 14px; }
 .telhado__texto strong { color: var(--tinta); }
 .nota-linha { font-size: 0.9375rem !important; border-top: 1px solid var(--linha); padding-top: 16px; margin-top: 28px !important; }
+.telhado h2 { font-size: clamp(2.6rem, 3.6vw + 1.2rem, 4.4rem); }
+
+/* Destaque da garantia: o número grande responde ao "e se chover?". */
+.garantia {
+  display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 6px 18px;
+  margin-top: 26px; padding: 22px 24px; border-radius: var(--raio);
+  background: var(--navy); color: var(--papel); box-shadow: var(--sombra-alta);
+}
+.garantia::before {
+  content: ''; grid-row: span 2; width: 52px; height: 52px; border-radius: 14px; background: var(--sun) center / 30px no-repeat
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23123A55' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3s-6 6.6-6 11a6 6 0 0012 0c0-4.4-6-11-6-11z'/%3E%3Cpath d='M9.2 14.2l2 2 3.6-3.8'/%3E%3C/svg%3E");
+}
+.telhado__texto p.garantia__anos { font-size: clamp(2.4rem, 2vw + 1.6rem, 3.2rem); font-weight: 680; letter-spacing: -0.04em; line-height: 1; color: var(--sun) !important; }
+.garantia__texto { font-size: 1rem !important; color: color-mix(in srgb, var(--papel) 82%, transparent) !important; margin: 0 !important; }
+
+/* Chuva sobre o telhado montado: some quando as camadas se separam, fora da tela e com movimento reduzido. */
+.chuva { position: absolute; inset: 0; pointer-events: none; overflow: hidden; opacity: 0; transition: opacity 0.6s; container-type: size; }
+.explodida.chovendo[data-estado='montado'] .chuva { opacity: 1; }
+.gota {
+  position: absolute; top: -12%; left: var(--x); width: 2px; height: 22px; border-radius: 2px;
+  background: linear-gradient(transparent, color-mix(in srgb, var(--navy) 45%, #8fb3cf));
+  animation: gota var(--v) linear var(--d) infinite; animation-play-state: paused;
+}
+.explodida.chovendo[data-estado='montado'] .gota { animation-play-state: running; }
+@keyframes gota {
+  0% { transform: translateY(0) rotate(12deg); opacity: 0; }
+  10% { opacity: 0.85; }
+  80% { opacity: 0.85; }
+  100% { transform: translateY(calc(var(--queda) * 1cqh)) rotate(12deg); opacity: 0; }
+}
 
 /* 5. Custo */
 .custo__grade { display: grid; gap: 14px; }
