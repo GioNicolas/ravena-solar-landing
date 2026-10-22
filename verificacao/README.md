@@ -25,12 +25,12 @@ O que foi conferido antes da entrega, como e com que resultado. Tudo aqui é rep
 
 ## 2. Comportamento na tela: `npm run capturas`
 
-Página gerada (`dist/`) aberta no Edge em duas larguras: **desktop de 1440px** e **celular de 390px**, com toque e densidade 2x. Arquivos em [`capturas/`](capturas/).
+**Página no ar**, https://ravena-solar-landing.vercel.app (`URL=... npm run capturas`), aberta no Edge em duas larguras: **desktop de 1440px** e **celular de 390px**, com toque e densidade 2x. Arquivos em [`capturas/`](capturas/). As duas linhas marcadas com (local) foram conferidas no build local, idêntico ao publicado.
 
 | O que foi feito | O que se esperava | Resultado |
 |---|---|---|
-| Abrir e fechar uma dúvida | Altura da resposta anima nos dois sentidos | ok: amostras de altura ao abrir 0 → 21 → 45 → 66 → 76px e ao fechar 76 → 44 → 11 → 0px (`desktop-4e-duvida-aberta.png`) |
-| Clicar em "Quanto custa" no menu (desktop) | Rola até a seção e o link fica marcado | ok: marcado = "Quanto custa" (`desktop-0-menu.png`) |
+| Abrir e fechar uma dúvida (local) | Altura da resposta anima nos dois sentidos | ok: amostras de altura ao abrir 0 → 21 → 45 → 66 → 76px e ao fechar 76 → 44 → 11 → 0px (`desktop-4e-duvida-aberta.png`) |
+| Clicar em "Quanto custa" no menu, desktop (local) | Rola até a seção e o link fica marcado | ok: marcado = "Quanto custa" (`desktop-0-menu.png`) |
 | Abrir a página | Simulador na primeira tela; casa 3D no desktop, imagem dela no celular | ok (`*-1-topo.png`); 3D entrou no desktop, imagem no celular |
 | Digitar R$ 300 | Aviso franco, sem botão de pedido; nuvens chegam e a luz cai | ok (`*-2-simulador-300.png`, `desktop-2b-topo-300.png`) |
 | Digitar R$ 780 | Barra "Hoje" R$ 780 e "Com energia solar" R$ 80 a R$ 200 encolhendo; economia de R$ 7.020 a R$ 8.420 por ano; o sol sobe e a energia corre na casa | ok (`*-3-simulador-780.png`, `desktop-3b-topo-780.png`) |
@@ -42,9 +42,14 @@ Página gerada (`dist/`) aberta no Edge em duas larguras: **desktop de 1440px** 
 | Enviar vazio | Erro em cada campo obrigatório, campo em vermelho | ok (`*-5-pedido-erros.png`) |
 | Escolher "Outra cidade da região" | Aviso de alcance de 80 km e raio do mapa destacado | ok (`*-5b-pedido-outra-cidade.png`) |
 | Escolher Itu | Itu acende no mapa | ok (`*-5c-mapa-itu.png`) |
-| Preencher e enviar | Pedido chega à função; formulário dá lugar à confirmação com o nome | ok (`*-6-pedido-enviado.png`); o log da função registrou o pedido |
+| Preencher e enviar | Pedido chega à função; formulário dá lugar à confirmação com o nome | ok (`*-6-pedido-enviado.png`); a função publicada respondeu `{"ok":true}` |
 | Medir a borda direita de cada elemento | Nada passa da largura da tela | 0px de estouro nas duas larguras |
 | Console do navegador | Nenhum erro | nenhum erro nas duas larguras |
+
+**Função publicada, por `curl`:**
+- pedido válido: `200 {"ok":true}`;
+- pedido inválido: `422` com o erro de cada campo;
+- envio sem JavaScript: `303` para `/?pedido=enviado&nome=...#pedido`.
 
 **Bugs achados pela verificação e corrigidos antes da entrega:**
 - **Revisão 1:**
@@ -61,13 +66,14 @@ Página gerada (`dist/`) aberta no Edge em duas larguras: **desktop de 1440px** 
   - o vidro dos painéis piscava de longe (*z-fighting* com a moldura, 0,5 mm de distância);
   - a maquete da casa encostava nas bordas do canvas e formava uma caixa com bordas retas.
 
-## 3. Lighthouse, celular: [`lighthouse/celular.report.html`](lighthouse/celular.report.html)
+## 3. Lighthouse, celular, na página no ar: [`lighthouse/celular.report.html`](lighthouse/celular.report.html)
 
 | Desempenho | Acessibilidade | Boas práticas | SEO |
 |---|---|---|---|
-| **100** | **100** | **100** | **100** |
+| **99** | **100** | **100** | **100** |
 
-- LCP 1,4 s; FCP 1,2 s; Speed Index 1,5 s; bloqueio total 40 ms; CLS 0,002.
+- Na página publicada: LCP 1,6 s; FCP 1,4 s; Speed Index 2,1 s; bloqueio total 20 ms; CLS 0,002.
+- No build local, antes do deploy, a mesma página deu 100 em Desempenho (LCP 1,4 s). A diferença é a rede até a Vercel, que no local não existe.
 - A textura de papel foi medida antes de ficar: com ela, Speed Index de 1,4 s; sem ela, 1,3 s.
 - Uma primeira execução, com o servidor ainda frio, deu Speed Index de 3,7 s. Duas execuções seguidas com e sem textura deram 1,3–1,4 s, e o relatório guardado é de uma execução nova.
 
