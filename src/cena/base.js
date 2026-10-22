@@ -110,6 +110,9 @@ export function materiais(rnd, { reflexo = 1 } = {}) {
       envMapIntensity: 1.6 * reflexo,
       ior: 1.5,
       specularIntensity: reflexo * reflexo,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
     }),
   };
 }
@@ -200,7 +203,8 @@ export function montarPaineis({ cols, lins, W = 1.08, H = 1.76, gap = 0.03, alt 
       moldura.position.set(x0 + k * (W + gap), alt, z0 + r * (H + gap));
       moldura.castShadow = moldura.receiveShadow = true;
       const placa = new THREE.Mesh(geoVidro, mat.vidro);
-      placa.position.set(moldura.position.x, alt + 0.0205, moldura.position.z);
+      // 8 mm acima do topo da moldura: com 0,5 mm o vidro brigava com ela (z-fighting) e piscava de longe.
+      placa.position.set(moldura.position.x, alt + 0.028, moldura.position.z);
       placa.receiveShadow = true;
       paineis.add(moldura, placa);
       placas.push(placa);
@@ -227,7 +231,7 @@ export function montarPaineis({ cols, lins, W = 1.08, H = 1.76, gap = 0.03, alt 
     new THREE.PlaneGeometry(1.2, comp + 0.3).rotateX(-Math.PI / 2),
     new THREE.MeshBasicMaterial({ map: texturaBrilho(), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }),
   );
-  brilho.position.set(-larg, alt + 0.03, 0);
+  brilho.position.set(-larg, alt + 0.05, 0);
   paineis.add(brilho);
 
   return { paineis, estrutura, placas, brilho, larg, comp };

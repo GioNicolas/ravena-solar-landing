@@ -36,8 +36,8 @@ A conta de luz cai de 75% a 90% — não zera — com uma empresa da região que
 5. **Quanto custa e quando se paga.** Investimento entre R$ 14 mil e R$ 19 mil para o tamanho típico de casa; financiamento com entrada zero possível, com parcela que na maioria dos casos fica próxima do que a pessoa já paga de luz; retorno em 3 a 4 anos; sistema dura mais de 25. A Lei 14.300 é explicada neste mesmo bloco, sem rodeio: existe uma cobrança sobre a energia injetada, que sobe ano a ano; continua valendo a pena, mas o cálculo mudou — por isso a simulação é feita com a conta da pessoa, não com uma média.
    - *Por quê:* quem pede três orçamentos vai comparar preço. Dar a faixa filtra quem não pode e poupa o vendedor. "Taxaram o sol" é a terceira objeção e é sobre dinheiro, então mora aqui.
 
-6. **Do pedido à energia ligada, em 4 passos.** Resposta por WhatsApp no mesmo dia útil, visita técnica sem custo e sem compromisso, proposta com três tamanhos de sistema e instalação em dois dias. Prazo total de 45 a 60 dias da assinatura até o sistema ligado, com a observação honesta de que a homologação na CPFL é a parte que não depende da Ravena.
-   - *Por quê:* tira o medo do passo seguinte. Pedir simulação não compromete nada.
+6. **Do pedido à energia ligada, em 4 passos.** Resposta por WhatsApp no mesmo dia útil, visita técnica sem custo e sem compromisso, proposta com três tamanhos de sistema e instalação em dois dias. Prazo total de 45 a 60 dias da assinatura até o sistema ligado, com a observação honesta de que a homologação na CPFL é a parte que não depende da Ravena. O prazo aparece dentro do próprio caminho: a homologação é uma parada entre a assinatura e a instalação, e o sistema ligado traz os 45 a 60 dias.
+   - *Por quê:* tira o medo do passo seguinte. Pedir simulação não compromete nada. Ver onde fica a espera, e de quem ela depende, evita a frustração de quem esperava a instalação logo depois de assinar.
 
 7. **Três dúvidas curtas.** E se eu mudar de casa? (o sistema valoriza o imóvel e pode ser transferido.) E à noite e em dia nublado? (produz menos e não produz; o crédito acumulado no mês compensa.) Preciso de bateria? (não, para casa ligada na rede.)
    - *Por quê:* são as objeções que sobram depois dos blocos acima, e cada uma se responde em uma frase.
@@ -69,7 +69,8 @@ Regra para qualquer visual ou animação: **precisa trabalhar para um bloco, ou 
 
 - A casa do topo reage ao simulador: com conta que compensa, o sol sobe e a energia corre do telhado ao medidor; abaixo de R$ 450, chegam nuvens e a luz cai. É a resposta visual ao valor digitado.
 - Os números de prova contam até o valor quando entram na tela; a conta do caso real rola de R$ 780 até R$ 118. Movimento para fazer o número ser lido, não para enfeitar.
-- A vista explodida do telhado separa e monta as camadas uma vez ao aparecer, e a pessoa pode repetir com um botão.
+- A vista explodida do telhado abre as camadas sozinha na primeira vez que aparece; depois, passar o mouse abre e tirar o mouse monta (no celular, o toque alterna).
+- O caminho "do pedido à energia ligada" se preenche conforme a página rola, acendendo cada etapa ao passar por ela, sem prender a rolagem.
 - Nenhuma animação prende a rolagem ou faz a pessoa esperar para chegar ao pedido. A página rola como uma página normal; cada animação dispara quando sua seção aparece.
 - O simulador funciona e aparece antes de qualquer 3D carregar; sem 3D (celular, conexão lenta), imagens renderizadas da mesma cena trocam de estado do mesmo jeito, e a página continua completa.
 - Quem pede menos movimento no sistema operacional recebe a página sem animação, com todos os números no valor final.
@@ -99,3 +100,7 @@ Regra para qualquer visual ou animação: **precisa trabalhar para um bloco, ou 
   - entrou o mapa da região junto do formulário, como segundo filtro.
 
   A casa do topo passou a reagir de verdade ao simulador. Os cortes da spec continuam os mesmos, e o novo "fora" é o das outras cidades no mapa.
+- **Revisão 3.** Ajustes de forma, sem mudar o conteúdo:
+  - a vista explodida responde ao mouse e ao toque, em vez de um botão;
+  - "quando se paga" virou uma régua de anos, mais fácil de ler que a linha do tempo;
+  - os passos e a barra de prazo viraram um único caminho que acompanha a rolagem.

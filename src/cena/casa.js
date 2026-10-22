@@ -18,7 +18,7 @@ const ESTADOS = {
 };
 
 export const TIROS = {
-  hero: { pos: [18.4, 14.2, 24.2], alvo: [0.9, 1.1, 0.2], fov: 25 },
+  hero: { pos: [21.4, 16.4, 28.2], alvo: [0.8, 0.9, 0.2], fov: 25 },
   og: { pos: [17.5, 11.8, 21.5], alvo: [0.5, 1.2, 0.2], fov: 24 },
 };
 
@@ -65,7 +65,8 @@ function arvore(mats, rnd, escala = 1) {
 }
 
 function montarCasa(rnd) {
-  const mat = materiais(rnd, { reflexo: 0.8 });
+  // Reflexo contido: de longe, o estúdio refletido no vidro virava faixas brancas.
+  const mat = materiais(rnd, { reflexo: 0.45 });
   const mats = {
     ...mat,
     parede: new THREE.MeshStandardMaterial({ color: '#f3eee5', roughness: 0.92 }),

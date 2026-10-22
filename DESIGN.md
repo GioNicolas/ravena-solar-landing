@@ -58,14 +58,19 @@ Neutros derivados, não da marca: papel `#FBF7F0`, papel 2 `#F3ECE0`, papel 3 `#
    - trilhos com ganchos;
    - painéis.
 
-   Ao aparecer, as camadas se separam, ficam 3,4 s e voltam. O botão "Ver as camadas" repete. Os rótulos ("Painel solar", "Estrutura de fixação", "Seu telhado de barro") acompanham as peças e só aparecem com as camadas separadas. Leva o selo "Ilustração".
+   - Na primeira vez que a figura aparece, as camadas se separam sozinhas e ficam abertas.
+   - Depois disso, passar o mouse separa e tirar o mouse monta. No toque, cada toque alterna; no teclado, Enter ou espaço alternam.
+   - Uma dica no canto ("Passe o mouse" ou "Toque", conforme o aparelho) some depois da primeira interação.
+   - Os rótulos ("Painel solar", "Estrutura de fixação", "Seu telhado de barro") acompanham as peças e só aparecem com as camadas separadas. Leva o selo "Ilustração".
 5. **Quanto custa.**
    - Três cartões.
-   - Linha do tempo em SVG que se desenha: os anos pagando, o marcador de 3–4 anos e o resto da vida do sistema, "depois disso, a economia é sua".
-   - Caixa da Lei 14.300.
+   - **Régua de anos**: 25 blocos, um por ano. Os três primeiros e meio, em marinho, são o tempo de o sistema se pagar; o resto, em âmbar cada vez mais forte, é a vida do sistema. Os blocos sobem em sequência ao aparecer, e a legenda tem duas linhas.
+   - **Lei 14.300**: faixa marinho com a pergunta à esquerda (selo "Lei 14.300" e título grande) e, à direita, a resposta curta em âmbar ("Vale. Mas o cálculo mudou.") seguida da explicação.
 6. **Do pedido à energia ligada.**
-   - Quatro passos ligados por uma linha que se desenha, com os números acendendo em sequência.
-   - Barra de 45–60 dias: primeiro a homologação na CPFL, depois a instalação.
+   - Um caminho vertical com seis marcos: simulação, visita, proposta e assinatura, homologação na CPFL (marco menor, cartão listrado: espera que não depende da Ravena), instalação e sistema ligado (45–60 dias depois da assinatura).
+   - O trilho se preenche conforme a página rola, com um ponto de luz na ponta. Cada marco acende quando o trilho passa por ele.
+   - O cálculo só **lê** a posição da rolagem: a página nunca é presa nem rolada pelo script.
+   - No desktop, os cartões alternam dos dois lados e se encaixam em zigue-zague; no celular, o trilho fica à esquerda.
 7. **Dúvidas.** Três `<details>`, sem JavaScript.
 8. **Pedido** (faixa marinho).
    - À esquerda: texto e mapa da região em SVG.
@@ -130,7 +135,11 @@ three.js, modelado em código e carregado por `import()` dinâmico só depois qu
 
 ## Movimento
 
-- **Princípio:** cada animação dispara uma vez, quando a sua seção aparece, e serve para o número ou a ideia daquele bloco ser lido.
+- **Princípio:** cada animação dispara uma vez, quando a sua seção aparece, e serve para o número ou a ideia daquele bloco ser lido. A exceção é o caminho das etapas, que acompanha a rolagem nos dois sentidos, mas sem nunca controlá-la.
+- **Cenas 3D:**
+  - o vidro dos painéis fica 8 mm acima da moldura, com *polygon offset*, para não haver *z-fighting* (o vidro piscava de longe);
+  - na casa, o reflexo do ambiente é contido, para não virar faixas brancas;
+  - as bordas do canvas e das imagens são esfumadas por máscara, para a maquete não terminar numa linha reta.
 - **Detalhes:**
   - entrada das seções: 18px e opacidade, 700ms, `cubic-bezier(.22,1,.36,1)`, com leve escalonamento entre irmãos;
   - botões: puxam levemente o cursor (só mouse) e um reflexo os atravessa no hover.

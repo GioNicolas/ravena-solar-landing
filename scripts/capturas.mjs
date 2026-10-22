@@ -69,10 +69,29 @@ try {
     await revelarTudo(page);
     await page.screenshot({ path: arquivo(`${tela}-4-pagina-inteira.png`), fullPage: true });
 
-    // Vista explodida separada, pelo botão.
-    await page.click('#ver-camadas');
+    // Vista explodida: mouse em cima separa (desktop); toque alterna (celular).
+    await page.locator('#explodida').scrollIntoViewIfNeeded();
+    if (tela === 'desktop') await page.hover('#explodida');
+    else {
+      await page.tap('#explodida'); // estava aberta da primeira vez: monta
+      await page.waitForTimeout(400);
+      await page.tap('#explodida'); // e separa de novo
+    }
     await page.waitForTimeout(1800);
     await page.locator('#telhado').screenshot({ path: arquivo(`${tela}-4b-telhado-separado.png`) });
+    if (tela === 'desktop') {
+      await page.mouse.move(5, 5);
+      await page.waitForTimeout(1600);
+      await page.locator('#explodida').screenshot({ path: arquivo(`${tela}-4c-telhado-montado.png`) });
+    }
+
+    // Caminho das etapas no meio da rolagem.
+    await page.evaluate(() => {
+      const j = document.getElementById('jornada');
+      scrollTo(0, j.getBoundingClientRect().top + scrollY - innerHeight * 0.62 + j.offsetHeight * 0.55);
+    });
+    await page.waitForTimeout(900);
+    await page.screenshot({ path: arquivo(`${tela}-4d-etapas-rolando.png`) });
 
     // Pedido: o botão do simulador leva a conta para o formulário.
     await page.click('[data-leva-conta]');

@@ -112,8 +112,44 @@ const revela = new IntersectionObserver(
   }),
   { rootMargin: '0px 0px -10% 0px' },
 );
-document.querySelectorAll('.revela, .contas, .linha-tempo, .passos, .prazo, .mapa').forEach((el) => revela.observe(el));
+document.querySelectorAll('.revela, .contas, .regua, .mapa').forEach((el) => revela.observe(el));
 odometrosAoAparecer();
+
+// ---------- Caminho das etapas: se preenche conforme a página rola ----------
+// Só lê a posição da rolagem; nunca prende nem controla a rolagem.
+const jornada = document.getElementById('jornada');
+const marcos = [...jornada.querySelectorAll('.marco')];
+let pedidoQuadro = false;
+
+const centro = (el) => {
+  const r = el.querySelector('.marco__no').getBoundingClientRect();
+  return r.top + r.height / 2;
+};
+
+function atualizarJornada() {
+  pedidoQuadro = false;
+  const caixa = jornada.getBoundingClientRect();
+  // O trilho vai do centro do primeiro marco ao centro do último.
+  const ini = centro(marcos[0]) - caixa.top;
+  const fim = centro(marcos.at(-1)) - caixa.top;
+  jornada.style.setProperty('--trilho-ini', `${ini}px`);
+  jornada.style.setProperty('--trilho-fim', `${caixa.height - fim}px`);
+  const linha = innerHeight * 0.62; // o caminho acompanha um ponto um pouco abaixo do meio da tela
+  const progresso = reduzMovimento ? 1 : Math.min(1, Math.max(0, (linha - caixa.top - ini) / (fim - ini)));
+  jornada.style.setProperty('--progresso', progresso.toFixed(4));
+  for (const m of marcos) {
+    const no = m.querySelector('.marco__no').getBoundingClientRect();
+    m.classList.toggle('ativo', reduzMovimento || no.top + no.height / 2 <= linha);
+  }
+}
+addEventListener('scroll', () => {
+  if (!pedidoQuadro) {
+    pedidoQuadro = true;
+    requestAnimationFrame(atualizarJornada);
+  }
+}, { passive: true });
+addEventListener('resize', atualizarJornada);
+atualizarJornada();
 
 // ---------- Botões que puxam o cursor (só mouse) ----------
 if (!reduzMovimento && matchMedia('(hover: hover) and (pointer: fine)').matches) {
@@ -128,7 +164,6 @@ if (!reduzMovimento && matchMedia('(hover: hover) and (pointer: fine)').matches)
 
 // ---------- Vista explodida do telhado ----------
 const explodida = document.getElementById('explodida');
-const botaoCamadas = document.getElementById('ver-camadas');
 let cena3dTelhado = null;
 
 function posicionarRotulos(r) {
@@ -146,19 +181,32 @@ posicionarRotulos(rotulosEstaticos);
 
 function camadas(separar) {
   explodida.dataset.estado = separar ? 'separado' : 'montado';
-  botaoCamadas.textContent = separar ? 'Montar de novo' : 'Ver as camadas';
-  botaoCamadas.setAttribute('aria-pressed', String(separar));
+  explodida.setAttribute('aria-pressed', String(separar));
   if (cena3dTelhado) separar ? cena3dTelhado.separar() : cena3dTelhado.montar();
 }
-botaoCamadas.addEventListener('click', () => camadas(explodida.dataset.estado !== 'separado'));
 
+// Na primeira vez que aparece, abre sozinho e fica aberto. Depois: mouse em cima
+// abre, mouse fora monta; no toque, cada toque alterna; no teclado, foco abre.
 new IntersectionObserver(([i], obs) => {
   if (!i.isIntersecting) return;
   obs.disconnect();
-  if (reduzMovimento) return;
-  setTimeout(() => camadas(true), 500);
-  setTimeout(() => camadas(false), 3900);
+  setTimeout(() => !explodida.classList.contains('mexeu') && camadas(true), reduzMovimento ? 0 : 500);
 }, { threshold: 0.55 }).observe(explodida);
+
+const mexeu = () => explodida.classList.add('mexeu');
+explodida.addEventListener('pointerenter', (e) => e.pointerType === 'mouse' && (mexeu(), camadas(true)));
+explodida.addEventListener('pointerleave', (e) => e.pointerType === 'mouse' && camadas(false));
+explodida.addEventListener('click', (e) => {
+  if (e.pointerType === 'mouse') return;
+  mexeu();
+  camadas(explodida.dataset.estado !== 'separado');
+});
+explodida.addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  e.preventDefault();
+  mexeu();
+  camadas(explodida.dataset.estado !== 'separado');
+});
 
 // ---------- Cenas 3D: só depois da página utilizável, e só onde faz sentido ----------
 function carregarCasa() {

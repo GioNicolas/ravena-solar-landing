@@ -1,6 +1,6 @@
 # Verificação
 
-O que foi conferido antes da entrega, como e com que resultado. Tudo aqui é reproduzível com os comandos indicados. Este relatório é da **revisão 2** da página (ver `SPEC.md`, Revisões).
+O que foi conferido antes da entrega, como e com que resultado. Tudo aqui é reproduzível com os comandos indicados. Este relatório é da **revisão 3** da página (ver `SPEC.md`, Revisões).
 
 ## 1. Testes automáticos: `npm run build && npm test`
 
@@ -21,7 +21,7 @@ O que foi conferido antes da entrega, como e com que resultado. Tudo aqui é rep
 - **Números** (`scripts/checar-numeros.mjs`):
   - extrai todos os números do texto da página gerada e falha se algum não estiver na lista tirada do brief;
   - cada número da lista traz a linha do brief de onde veio;
-  - resultado: **33 números no texto, todos do brief.**
+  - resultado: **25 números no texto, todos do brief.**
 
 ## 2. Comportamento na tela: `npm run capturas`
 
@@ -32,8 +32,10 @@ Página gerada (`dist/`) aberta no Edge em duas larguras: **desktop de 1440px** 
 | Abrir a página | Simulador na primeira tela; casa 3D no desktop, imagem dela no celular | ok (`*-1-topo.png`); 3D entrou no desktop, imagem no celular |
 | Digitar R$ 300 | Aviso franco, sem botão de pedido; nuvens chegam e a luz cai | ok (`*-2-simulador-300.png`, `desktop-2b-topo-300.png`) |
 | Digitar R$ 780 | Barra "Hoje" R$ 780 e "Com energia solar" R$ 80 a R$ 200 encolhendo; economia de R$ 7.020 a R$ 8.420 por ano; o sol sobe e a energia corre na casa | ok (`*-3-simulador-780.png`, `desktop-3b-topo-780.png`) |
-| Rolar a página inteira | Cada bloco no estado final das animações: números, contas com anel de −85%, linha do tempo, passos, prazo, mapa | ok (`*-4-pagina-inteira.png`) |
-| Clicar em "Ver as camadas" | Telhado separado em três camadas, rótulos sem se sobrepor | ok (`*-4b-telhado-separado.png`) |
+| Rolar a página inteira | Cada bloco no estado final das animações: números, contas com anel de −85%, régua de anos, mapa | ok (`*-4-pagina-inteira.png`) |
+| Mouse sobre o telhado (desktop) ou dois toques (celular) | Telhado separado em três camadas, rótulos sem se sobrepor | ok (`*-4b-telhado-separado.png`) |
+| Tirar o mouse do telhado (desktop) | Camadas montam de novo | ok (`desktop-4c-telhado-montado.png`) |
+| Rolar até o meio do caminho das etapas | Trilho preenchido até a linha de leitura; etapas acima dela acesas, abaixo apagadas; página rola livre | ok (`*-4d-etapas-rolando.png`) |
 | Clicar em "Pedir minha simulação" | Rola até o formulário com a conta preenchida | ok: conta levada = 780 nas duas larguras |
 | Enviar vazio | Erro em cada campo obrigatório, campo em vermelho | ok (`*-5-pedido-erros.png`) |
 | Escolher "Outra cidade da região" | Aviso de alcance de 80 km e raio do mapa destacado | ok (`*-5b-pedido-outra-cidade.png`) |
@@ -53,6 +55,9 @@ Página gerada (`dist/`) aberta no Edge em duas larguras: **desktop de 1440px** 
   - os rótulos da vista explodida se sobrepunham e passavam da borda no celular;
   - o odômetro ficava fora da linha de base do texto;
   - as mensagens de erro do formulário continuavam na tela depois que a pessoa corrigia o campo.
+- **Revisão 3:**
+  - o vidro dos painéis piscava de longe (*z-fighting* com a moldura, 0,5 mm de distância);
+  - a maquete da casa encostava nas bordas do canvas e formava uma caixa com bordas retas.
 
 ## 3. Lighthouse, celular: [`lighthouse/celular.report.html`](lighthouse/celular.report.html)
 
@@ -60,7 +65,7 @@ Página gerada (`dist/`) aberta no Edge em duas larguras: **desktop de 1440px** 
 |---|---|---|---|
 | **100** | **100** | **100** | **100** |
 
-- LCP 1,5 s; FCP 1,2 s; Speed Index 1,4 s; bloqueio total 20 ms; CLS 0,002.
+- LCP 1,4 s; FCP 1,2 s; Speed Index 1,5 s; bloqueio total 40 ms; CLS 0,002.
 - A textura de papel foi medida antes de ficar: com ela, Speed Index de 1,4 s; sem ela, 1,3 s.
 - Uma primeira execução, com o servidor ainda frio, deu Speed Index de 3,7 s. Duas execuções seguidas com e sem textura deram 1,3–1,4 s, e o relatório guardado é de uma execução nova.
 
