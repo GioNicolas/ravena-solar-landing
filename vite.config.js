@@ -69,8 +69,29 @@ function apiLocal() {
   };
 }
 
+// No build, o CSS vai dentro do HTML: a página pinta já estilizada, sem piscar
+// o HTML puro e sem esperar uma segunda requisição.
+function cssEmLinha() {
+  return {
+    name: 'css-em-linha',
+    apply: 'build',
+    enforce: 'post',
+    generateBundle(_, bundle) {
+      const html = bundle['index.html'];
+      if (!html) return;
+      for (const [nome, arquivo] of Object.entries(bundle)) {
+        if (!nome.endsWith('.css')) continue;
+        const tag = new RegExp(`<link rel="stylesheet"[^>]*href="/${nome.replace(/[.]/g, '\\.')}"[^>]*>`);
+        if (!tag.test(html.source)) continue;
+        html.source = html.source.replace(tag, () => `<style>${arquivo.source}</style>`);
+        delete bundle[nome];
+      }
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [brand(), apiLocal()],
+  plugins: [brand(), apiLocal(), cssEmLinha()],
   // O pacote da cena (three.js) passa de 500 kB, mas só carrega depois da página
   // utilizável e só no desktop (DESIGN.md, Cena 3D).
   build: { chunkSizeWarningLimit: 600 },

@@ -9,14 +9,20 @@
 <body>
   <div id="c"></div>
   <script type="module">
-    import { criarCena } from '/src/cena/cena.js';
+    import { criarCasa } from '/src/cena/casa.js';
+    import { criarExplodida } from '/src/cena/explodida.js';
     const p = new URLSearchParams(location.search);
-    const cena = await criarCena(document.getElementById('c'), {
-      tiro: p.get('tiro') ?? 'hero',
-      still: true,
-      fundo: p.get('fundo'),
-    });
-    cena.definirEstado(p.get('estado') ?? 'vazio', true);
+    const el = document.getElementById('c');
+    const fundo = p.get('fundo');
+    let cena;
+    if (p.get('cena') === 'explodida') {
+      cena = await criarExplodida(el, { still: true, fundo });
+      cena.definir(Number(p.get('separacao') ?? 0));
+      window.__rotulos = () => cena.rotulos();
+    } else {
+      cena = await criarCasa(el, { still: true, fundo, tiro: p.get('tiro') ?? 'hero' });
+      cena.definirEstado(p.get('estado') ?? 'vazio', true);
+    }
     await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
     cena.renderizar();
     window.__imagem = (tipo, q) => cena.renderer.domElement.toDataURL(tipo, q);

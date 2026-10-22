@@ -34,11 +34,19 @@ async function abrir(tela) {
 
 async function revelarTudo(page) {
   await page.evaluate(() => {
-    document.querySelectorAll('.revela').forEach((el) => el.classList.add('visto'));
+    // Dispara todas as animações de entrada de uma vez, como se a pessoa tivesse rolado a página.
+    document.querySelectorAll('.revela, .contas, .linha-tempo, .passos, .prazo, .mapa').forEach((el) => el.classList.add('visto'));
     document.querySelectorAll('img[loading="lazy"]').forEach((img) => (img.loading = 'eager'));
   });
   await page.evaluate(() => Promise.all([...document.images].map((img) => img.decode().catch(() => {}))));
-  await page.waitForTimeout(700);
+  await page.evaluate(async () => {
+    for (let y = 0; y < document.body.scrollHeight; y += innerHeight * 0.8) {
+      scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 120));
+    }
+    scrollTo(0, 0);
+  });
+  await page.waitForTimeout(3500); // fim das animações (a mais longa leva ~3 s)
 }
 
 const relatorio = [];
@@ -61,6 +69,11 @@ try {
     await revelarTudo(page);
     await page.screenshot({ path: arquivo(`${tela}-4-pagina-inteira.png`), fullPage: true });
 
+    // Vista explodida separada, pelo botão.
+    await page.click('#ver-camadas');
+    await page.waitForTimeout(1800);
+    await page.locator('#telhado').screenshot({ path: arquivo(`${tela}-4b-telhado-separado.png`) });
+
     // Pedido: o botão do simulador leva a conta para o formulário.
     await page.click('[data-leva-conta]');
     await page.waitForTimeout(900);
@@ -72,20 +85,28 @@ try {
     await page.locator('#pedido').screenshot({ path: arquivo(`${tela}-5-pedido-erros.png`) });
     await page.fill('#f-nome', 'Maria Teste');
     await page.fill('#f-whatsapp', '15991234567');
-    await page.selectOption('#f-cidade', 'Votorantim');
+    await page.selectOption('#f-cidade', 'Outra cidade da região');
+    await page.waitForTimeout(500);
+    await page.locator('#pedido').screenshot({ path: arquivo(`${tela}-5b-pedido-outra-cidade.png`) });
+    await page.selectOption('#f-cidade', 'Itu');
+    await page.waitForTimeout(500);
+    await page.locator('#mapa').screenshot({ path: arquivo(`${tela}-5c-mapa-itu.png`) });
     await page.click('#form-pedido button[type="submit"]');
     await page.waitForSelector('#enviado:not([hidden])', { timeout: 10000 });
     await page.waitForTimeout(700); // fim da animação de entrada
     await page.locator('#pedido').screenshot({ path: arquivo(`${tela}-6-pedido-enviado.png`) });
 
     // Mede o estouro real de cada elemento, porque overflow: clip esconderia do scrollWidth.
-    const larguraExtra = await page.evaluate(() =>
-      Math.max(0, ...[...document.querySelectorAll('main *, header *')]
+    const estouros = await page.evaluate(() =>
+      [...document.querySelectorAll('main *, header *')]
         .filter((el) => !el.closest('.hero__cena, .form__isca, .pular'))
-        .map((el) => Math.ceil(el.getBoundingClientRect().right - innerWidth))),
+        .map((el) => ({ el: `${el.tagName.toLowerCase()}.${String(el.className.baseVal ?? el.className).split(' ')[0]}`, px: Math.ceil(el.getBoundingClientRect().right - innerWidth) }))
+        .filter((x) => x.px > 0)
+        .slice(0, 5),
     );
+    const larguraExtra = Math.max(0, ...estouros.map((x) => x.px));
     const cena3d = await page.evaluate(() => document.querySelector('.hero__cena').classList.contains('viva'));
-    relatorio.push({ tela, contaLevada, larguraExtra, cena3d, erros });
+    relatorio.push({ tela, contaLevada, larguraExtra, estouros, cena3d, erros });
     await page.close();
   }
 } finally {

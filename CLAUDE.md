@@ -15,16 +15,24 @@ Leia antes de mudar qualquer coisa:
 - **Texto:** pt-BR, direto, com número. Proibido "energia do futuro", "sustentabilidade" como slogan, "revolução solar", "grátis", "conta zerada", "economia de 95%". A visita é "sem custo e sem compromisso".
 - **Uma ação só.** Todo botão leva ao pedido de simulação. Não adicione link para Instagram, telefone, WhatsApp da empresa ou site antigo.
 - **O número de WhatsApp do site antigo é falso**, assim como o CNPJ. Não use nenhum dos dois.
-- **Movimento:** nada que prenda a rolagem ou atrase a chegada ao formulário. Respeite `prefers-reduced-motion`. O 3D nunca é requisito: a página funciona inteira sem ele.
+- **Movimento:** cada animação dispara uma vez quando a sua seção aparece e trabalha para um bloco; nada prende a rolagem ou atrasa a chegada ao formulário. Respeite `prefers-reduced-motion` (tudo no estado final). O 3D nunca é requisito: a página funciona inteira sem ele.
+- **A casa 3D não muda de tamanho nem de número de painéis com a conta digitada**: isso sugeriria um dimensionamento que só a visita faz.
 
 ## Estrutura
 
-- `index.html`: a página.
-- `src/main.js`: liga o simulador, o formulário e a carga tardia do 3D.
+- `index.html`: a página. O CSS entra por `<link>` e, no build, vai para dentro do HTML (plugin `css-em-linha`).
+- `src/main.js`: liga o simulador, o formulário, o mapa, as animações de entrada e a carga tardia do 3D.
 - `src/simulador.js`: a lógica pura do simulador, testada.
-- `src/formulario.js`: máscaras, validação e envio.
-- `src/cena/`: a cena three.js, carregada por `import()` dinâmico.
-- `src/styles/`: o CSS.
+- `src/odometro.js`: os números que rolam dígito por dígito.
+- `src/formulario.js` e `src/validacao.js`: máscaras, validação (a mesma do servidor) e envio.
+- `src/cena/`: as cenas three.js.
+  - `base.js`: peças e palco compartilhados;
+  - `casa.js`: a casa do topo;
+  - `explodida.js`: o telhado do bloco 4;
+  - `rotulos.json`: gerado por `npm run stills`.
+
+  Tudo carrega por `import()` dinâmico, só no desktop. Fora dele entram as imagens em `public/`, renderizadas das mesmas cenas: se mudar uma cena, rode `npm run stills`.
+- `src/styles/main.css`: o CSS.
 - `api/simulacao.js`: a função da Vercel que recebe o pedido. O destino real fica em `enviarPedido()`.
 - `scripts/`: verificação de números e render das imagens estáticas.
 - `verificacao/`: a evidência de verificação, que vai para o repositório.

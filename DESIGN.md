@@ -4,121 +4,163 @@ O *o quê* e o *porquê* estão na [`SPEC.md`](SPEC.md). Este arquivo diz *como*
 
 ## Direção
 
-**Dia, papel quente e azul-marinho.** Uma página clara, precisa e confiável, mais próxima de um relatório técnico bem diagramado do que de um anúncio. O âmbar aparece como luz do sol: no botão, no número que importa e na cena 3D. O resto fica em silêncio.
+**Dia, papel quente e azul-marinho.** Uma página clara, precisa e confiável, mais próxima de um relatório técnico bem diagramado do que de um anúncio. O âmbar aparece como luz do sol: no botão, no número que importa, na energia que corre na casa 3D. O resto fica em silêncio.
 
-Três palavras que guiam cada escolha: **técnico, honesto, quente.**
+Três palavras guiam cada escolha: **técnico, honesto, quente.**
+
+Para o ritmo, o fundo alterna entre papel, papel 2 e marinho. As duas faixas marinho são "A gente não some" e o pedido: a prova mais importante e o destino.
 
 ## Cores
 
-As cores da marca **não são digitadas no código**. O build lê `src/assets/logo.svg` e gera as variáveis a partir dele (`vite.config.js`, plugin `brand`). Se a logo mudar, a página muda junto.
+As cores da marca **não são digitadas no código**. O build lê `src/assets/logo.svg` e gera as variáveis a partir dele (`vite.config.js`, plugin `brand`): o CSS recebe `--navy`, `--sun` e `--ember`, e o 3D recebe as mesmas cores por `virtual:brand`. Se a logo mudar, a página e as cenas mudam junto.
 
 | Token | Origem | Uso |
 |---|---|---|
-| `--navy` | telhado e "RAVENA" da logo | texto principal, títulos, faixas escuras |
-| `--sun` | sol da logo | botão principal, destaques, luz da cena |
-| `--ember` | "SOLAR" da logo | só em elemento grande ou gráfico (contraste ~3:1 no papel, insuficiente para texto pequeno) |
+| `--navy` | telhado e "RAVENA" da logo | texto, títulos, faixas escuras, janelas e porta da casa 3D |
+| `--sun` | sol da logo | botão principal, destaques, sol do céu, maçaneta, anel do −85% |
+| `--ember` | "SOLAR" da logo | energia correndo na casa, risco do R$ 780, avisos. Só em elemento grande ou gráfico (~3:1 no papel) |
 
-Neutros derivados, não da marca: papel `#FBF7F0`, papel 2 `#F3ECE0`, texto secundário (marinho a 72%), linhas (marinho a 12%).
+Neutros derivados, não da marca: papel `#FBF7F0`, papel 2 `#F3ECE0`, papel 3 `#EBE2D3`, texto secundário (marinho a 74%), linhas (marinho a 13%). O verde-água do site antigo não está na logo e não entra.
 
-**Contraste.** O botão principal é âmbar com texto marinho (~6:1). Texto corrido é marinho no papel (~11:1). Todo texto passa no AA.
-
-O verde-água do site antigo (`#1d8f7e`) não está na logo e não entra.
+**Contraste.** O botão é âmbar com texto marinho (~6:1). Texto corrido é marinho no papel (~11:1). Lighthouse de acessibilidade: 100.
 
 ## Tipografia
 
-- **Geist** (variável, servida pela própria página, sem Google Fonts em tempo de execução) para tudo.
-- Títulos: peso 600, entreletra −0,03em, `clamp(2.4rem, 4.2vw + 1rem, 4.6rem)` no topo.
-- Números sempre com `font-variant-numeric: tabular-nums`. Números são o argumento desta marca, então aparecem grandes.
-- Formato brasileiro: `R$ 14 mil`, `4,8`, `75%`, separador de milhar com ponto.
+- **Geist** variável, servida pela própria página, com uma fonte reserva com as métricas ajustadas, para o texto não refluir quando a Geist chega.
+- Títulos com peso 620 e entreletra −0,035em. Números sempre com `tabular-nums`, porque são o argumento desta marca e aparecem grandes.
+- Formato brasileiro: `R$ 14 mil`, `4,8`, `75%`, milhar com ponto.
 
 ## Layout
 
-- Largura máxima de 1200px; respiro lateral de 20px no celular e 32px no desktop.
-- Seções com espaço vertical de `clamp(72px, 10vw, 140px)`.
-- Feita para o celular primeiro. No celular, uma barra fixa com "Pedir simulação" aparece depois que o simulador sai da tela e some quando o formulário entra.
-- Cabeçalho mínimo: logo e um único botão. Sem menu, porque a página tem uma ação só.
+- Largura máxima de 1200px; respiro lateral de 20px no celular e 32px no desktop. Feita para o celular primeiro.
+- Cabeçalho mínimo: logo e um único botão de largura fixa. No celular, um botão fixo de "Pedir simulação" aparece quando o simulador sai da tela e some quando o formulário entra.
+- No build, o CSS vai dentro do HTML (plugin `css-em-linha`): a primeira pintura já sai estilizada.
 
 ## Blocos (na ordem da spec)
 
-1. **Topo.** À esquerda, o título, a linha de apoio e o cartão do simulador. À direita, a cena 3D. No celular, o simulador vem antes e, no lugar da cena, entra uma imagem estática dela.
-2. **Caso real.** Uma "conta de luz" desenhada em HTML/CSS: antes, R$ 780; média de 12 meses, R$ 118, −85%. A legenda traz Sorocaba · 6,4 kWp · ligado em março de 2025. É uma conta genérica, sem logo nem layout da CPFL.
-3. **A gente não some.** Grade de números grandes: 6 anos, 412 sistemas, 11 pessoas com carteira assinada, 4,8 no Google (137 avaliações). Embaixo, assistência autorizada e acompanhamento no primeiro ano.
-4. **Telhado.** Close renderizado da cena 3D (painel sobre telha de barro) e o texto da garantia de 5 anos com infiltração. Nenhum detalhe técnico de fixação que o brief não afirme.
-5. **Quanto custa.** Barra da faixa de R$ 14 mil a R$ 19 mil. Linha do tempo em SVG de 0 a 25+ anos, com o retorno em 3–4 anos destacado. Caixa da Lei 14.300.
-6. **Do pedido à energia ligada.** Quatro passos em linha (empilhados no celular) e uma barra de 45–60 dias com a homologação na CPFL marcada como a parte que não depende da Ravena.
-7. **Dúvidas.** Três `<details>`, abertos por teclado, sem JavaScript.
-8. **Pedido.** O formulário, na faixa marinho, o único bloco escuro da página: é o destino.
+1. **Topo.**
+   - À esquerda: título, apoio e o simulador.
+   - À direita: a casa 3D, com céu em CSS (sol e nuvens) atrás. As colunas se alinham pelo topo, para a cena não pular quando o resultado do simulador aparece.
+   - No resultado:
+     - duas barras ("Hoje" e "Com energia solar"), a segunda partindo cheia e encolhendo até a faixa;
+     - valores em odômetro;
+     - economia por ano;
+     - o botão de pedido.
+2. **A gente não some** (faixa marinho). Quatro números grandes (6 · 412 · 11 · 4,8★) que rolam até o valor ao aparecer, e três garantias de serviço.
+3. **Caso real.** Duas contas desenhadas em HTML/CSS. Ao aparecer:
+   - a segunda conta entra e rola de R$ 780 até R$ 118;
+   - um risco laranja atravessa o R$ 780;
+   - um anel enche até −85%.
 
-Rodapé: logo, "Integradora de energia solar residencial · Sorocaba (SP)", cidades atendidas, distribuidora CPFL. Sem CNPJ, sem telefone e sem endereço, porque o cliente não informou esses dados.
+   A conta é genérica, sem logo nem layout da CPFL.
+4. **Telhado, vista explodida.** Cena 3D de um trecho de telhado com três camadas:
+   - telhas de barro sobre ripas e caibros;
+   - trilhos com ganchos;
+   - painéis.
+
+   Ao aparecer, as camadas se separam, ficam 3,4 s e voltam. O botão "Ver as camadas" repete. Os rótulos ("Painel solar", "Estrutura de fixação", "Seu telhado de barro") acompanham as peças e só aparecem com as camadas separadas. Leva o selo "Ilustração".
+5. **Quanto custa.**
+   - Três cartões.
+   - Linha do tempo em SVG que se desenha: os anos pagando, o marcador de 3–4 anos e o resto da vida do sistema, "depois disso, a economia é sua".
+   - Caixa da Lei 14.300.
+6. **Do pedido à energia ligada.**
+   - Quatro passos ligados por uma linha que se desenha, com os números acendendo em sequência.
+   - Barra de 45–60 dias: primeiro a homologação na CPFL, depois a instalação.
+7. **Dúvidas.** Três `<details>`, sem JavaScript.
+8. **Pedido** (faixa marinho).
+   - À esquerda: texto e mapa da região em SVG.
+   - À direita: o formulário.
+   - O mapa usa a posição real das cidades, convertida de latitude e longitude em km, com Sorocaba no centro:
+     - Votorantim a 5 km;
+     - Itu a 31 km;
+     - Salto a 37 km;
+     - o raio de 80 km.
+   - Ao aparecer, o raio se desenha, as ligações saem da sede e as cidades surgem.
+   - A cidade escolhida no formulário acende no mapa. "Outra cidade da região" destaca o raio e mostra o aviso de alcance.
+
+Rodapé: logo, "Integradora de energia solar residencial · Sorocaba (SP)", cidades atendidas, distribuidora CPFL. Sem CNPJ, sem telefone e sem endereço, porque o cliente não informou.
 
 ## Simulador
 
 Lógica em `src/simulador.js`, pura e testada.
 
-- Entrada: conta média mensal em reais, com teclado numérico no celular (`inputmode="numeric"`) e máscara `R$`.
-- **Abaixo de R$ 450:** "Com conta abaixo de R$ 450 o sistema não se paga em prazo razoável. A gente mesmo desaconselha." Não mostra o botão de pedido.
-- **R$ 450 ou mais:** conta depois = conta × 10% a 25%; economia = conta × 75% a 90%, ao mês e ao ano. Valores arredondados para R$ 10.
-- O texto fixo abaixo do resultado diz que é uma estimativa com a faixa média dos clientes, que a conta não zera (taxa mínima e custo do fio) e que o número exato sai da simulação.
+- Entrada: conta média em reais inteiros. O ponto é separador de milhar e os centavos são ignorados ("780,00" vale R$ 780).
+- **Abaixo de R$ 450:** aviso franco, sem botão de pedido. A casa fica nublada.
+- **R$ 450 ou mais:**
+  - conta depois = conta × 10% a 25%;
+  - economia = conta × 75% a 90% × 12;
+  - tudo arredondado para R$ 10.
 - Não calcula potência, painéis, preço nem parcela (ver spec).
-- O botão "Pedir minha simulação" rola até o formulário com a conta já preenchida e põe o foco no nome.
-- O resultado é anunciado por `aria-live="polite"`.
+- O resultado é anunciado por `aria-live`; uma frase completa só para leitor de tela acompanha as barras.
 
-## Formulário
+## Odômetro
 
-- Campos: nome; WhatsApp com DDD (máscara `(15) 99999-9999`, 10 ou 11 dígitos); cidade (Sorocaba, Votorantim, Itu, Salto ou "Outra cidade da região"); conta média; foto ou PDF da conta, opcional, até 4 MB.
-- Conta abaixo de R$ 450: aviso no campo, sem bloquear o envio.
-- Campo invisível contra robôs (*honeypot*).
-- Envio `multipart/form-data` para `/api/simulacao`. Sem JavaScript, o formulário funciona do mesmo jeito: a função responde com redirecionamento e a página mostra a confirmação.
-- **Sucesso:** "Pedido recebido, {nome}. A Ravena responde no seu WhatsApp no mesmo dia útil." **Erro:** mensagem clara e os dados preservados.
+`src/odometro.js`. Cada dígito é uma fita de 0 a 9 que desliza, com os dígitos da direita girando um pouco mais devagar. O texto final fica no `aria-label`. No HTML estático já está o valor final, que serve sem JavaScript, para buscadores e para a checagem de números. Com movimento reduzido, o valor troca direto.
 
-## Função `/api/simulacao`
+## Cenas 3D
 
-`api/simulacao.js` é uma função da Vercel (Node, assinatura Web `POST(request)`).
+three.js, modelado em código e carregado por `import()` dinâmico só depois que a página está utilizável:
 
-- Valida tudo de novo no servidor.
-- **Destino de demonstração:** registra o pedido no log da Vercel. Do anexo, só nome, tipo e tamanho.
-- O destino real (e-mail ou CRM do cliente) entra em um único ponto, `enviarPedido()`, sinalizado no README.
+- `src/cena/base.js`:
+  - peças compartilhadas: telhas instanciadas, painéis com células desenhadas em canvas, trilhos e ganchos, materiais;
+  - o palco: renderizador, ambiente, sombra e um laço que pausa fora da tela e com a aba oculta;
+  - um aleatório com semente fixa, para a cena ao vivo e as imagens saírem iguais.
+- `src/cena/casa.js`: a casa em maquete.
+  - Base arredondada, gramado, caminho e árvores.
+  - Telhado de duas águas de barro com 10 painéis.
+  - Janelas e porta no marinho da logo.
+  - Inversor com luz de status, padrão de entrada com medidor, poste e fio.
+  - Estados:
 
-## Cena 3D
+    | Estado | Sol | O que acontece |
+    |---|---|---|
+    | vazio | manhã | sistema parado |
+    | compensa | sobe e esquenta | um brilho atravessa os painéis; partículas laranja correm do telhado ao inversor, ao medidor e ao poste; luz do inversor e visor do medidor acendem |
+    | não compensa | luz fria e fraca | nada corre |
 
-`src/cena/` usa three.js e é carregada por `import()` dinâmico, só depois que a página está utilizável.
+  - A casa **não muda de tamanho nem de número de painéis** com a conta (spec).
+- `src/cena/explodida.js`: a vista explodida, com a câmera de frente para o beiral para as camadas se lerem empilhadas.
 
-- **Modelada em código:** um trecho de telhado com telhas de barro (instanciadas) e uma fileira de painéis (células azul-escuras com moldura de alumínio, material físico com verniz). Luz de fim de tarde com sombra suave, ambiente de estúdio, tom ACES. As cores vêm do mesmo plugin `brand`.
-- **Câmera 3/4 fixa,** com deriva lenta de ±2° e leve paralaxe com o mouse no desktop. Sem controles de órbita.
-- **Reage ao simulador:**
-  - neutro antes de digitar;
-  - com R$ 450 ou mais, o sol esquenta e um brilho atravessa os painéis;
-  - abaixo de R$ 450, a luz esfria e perde força.
-  - A transição leva cerca de 800 ms.
-- **Carregamento:**
-  - a imagem estática (`poster`) da cena aparece primeiro, sempre, e o canvas entra por cima com um fade;
-  - WebGL só no desktop, com WebGL2, sem `saveData` e sem `prefers-reduced-motion`; nos outros casos fica só a imagem estática;
-  - a cena para de renderizar fora da tela e com a aba oculta;
-  - limite de 2 para a densidade de pixels.
-- **Imagens estáticas** (`poster` do topo, close do telhado, imagem de compartilhamento): renderizadas da própria cena por `scripts/render-stills.mjs` com o Edge headless. Não é foto e não é imagem de IA.
-- Nenhuma legenda sugere que a cena é uma obra real.
+**Onde roda:**
+- WebGL só no desktop (≥ 960px), com WebGL2, sem `saveData` e sem movimento reduzido.
+- Nos outros casos entram **imagens renderizadas das mesmas cenas**, que trocam de estado do mesmo jeito:
+  - a casa tem uma imagem por estado, com crossfade;
+  - o telhado tem montado e separado, com os rótulos posicionados por `src/cena/rotulos.json`.
+- As imagens e o JSON saem de `npm run stills` (Edge headless). Não são foto nem imagem de IA.
 
 ## Movimento
 
-- Entrada das seções: opacidade e deslocamento de 12px, 500ms, `cubic-bezier(.22,1,.36,1)`, uma vez só.
-- O resultado do simulador conta até o valor em 300ms.
-- **Proibido:** prender a rolagem, cena guiada pelo scroll, paralaxe em texto, carrossel, animação em loop que puxe o olho para longe do simulador.
-- Com `prefers-reduced-motion: reduce`, nada se move. A página fica completa do mesmo jeito.
+- **Princípio:** cada animação dispara uma vez, quando a sua seção aparece, e serve para o número ou a ideia daquele bloco ser lido.
+- **Detalhes:**
+  - entrada das seções: 18px e opacidade, 700ms, `cubic-bezier(.22,1,.36,1)`, com leve escalonamento entre irmãos;
+  - botões: puxam levemente o cursor (só mouse) e um reflexo os atravessa no hover.
+- **Proibido:**
+  - prender a rolagem;
+  - cena guiada pelo scroll;
+  - paralaxe em texto;
+  - carrossel;
+  - animação em loop que puxe o olho para longe do simulador.
+
+  O pulso da sede no mapa roda 3 vezes e para.
+- Com `prefers-reduced-motion: reduce`, nada se move e tudo aparece no estado final (números, anel, linhas, mapa).
+
+## Formulário e função
+
+- Campos, máscaras, honeypot e envio sem JavaScript: como na spec, em `src/formulario.js` e `src/validacao.js` (a mesma validação roda no servidor).
+- `api/simulacao.js`: função da Vercel. O destino é de demonstração (log da Vercel), trocado em um único ponto, `enviarPedido()`.
 
 ## Desempenho e acessibilidade
 
-- **Metas de Lighthouse (celular):**
+- **Metas do Lighthouse (celular):**
   - Desempenho ≥ 95; Acessibilidade, Boas práticas e SEO = 100;
   - LCP < 2 s;
-  - o 3D não conta no caminho crítico.
+  - CLS < 0,05.
+- O 3D nunca está no caminho crítico.
 - HTML semântico, rótulo em todo campo, foco visível, alvos de toque de pelo menos 44px, `lang="pt-BR"`.
-- Metadados: título, descrição, Open Graph com a imagem renderizada da cena, favicon do sol da logo.
 
-## Verificação (vai para `verificacao/`)
+## Verificação
 
-- `npm test`:
-  - testa a lógica do simulador, incluindo os limites (449, 450, valores altos);
-  - `scripts/checar-numeros.mjs` extrai todos os números do HTML gerado e falha se algum não estiver na lista tirada do brief.
-- Capturas no desktop (1440px) e no celular (390px): topo, simulador abaixo e acima de R$ 450, formulário enviado.
-- Relatório do Lighthouse para celular.
-- `verificacao/README.md` com o que foi checado, como, e o resultado.
+Ver [`verificacao/README.md`](verificacao/README.md):
+- `npm test`;
+- capturas em duas larguras com todos os estados;
+- Lighthouse.

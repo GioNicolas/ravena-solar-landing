@@ -13,7 +13,8 @@
   <meta property="og:image" content="/og.png">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="/cena-poster.webp" as="image" media="(min-width: 960px)">
+  <link rel="preload" href="/casa-vazio.webp" as="image" media="(min-width: 960px)">
+  <link rel="stylesheet" href="/src/styles/main.css">
   <script>document.documentElement.classList.add('js')</script>
   <script type="module" src="/src/main.js"></script>
 </head>
@@ -38,7 +39,7 @@
           <h1 id="hero-titulo">Sua conta de luz cai de <span class="destaque">75% a 90%</span>. <span class="h1__2">E quem instalou continua por perto.</span></h1>
           <p class="hero__apoio">Projeto, homologação na CPFL e instalação com equipe própria, de carteira assinada. 412 casas ligadas na região. Para contas acima de <strong>R$&nbsp;450</strong> por mês.</p>
 
-          <form class="sim" id="simulador" action="#pedido" novalidate>
+          <form class="sim" id="simulador" action="#pedido" novalidate data-estado="vazio">
             <label class="sim__rotulo" for="sim-conta">Quanto você paga de luz por mês, em média?</label>
             <div class="sim__campo">
               <span class="sim__moeda" aria-hidden="true">R$</span>
@@ -46,11 +47,22 @@
             </div>
 
             <div class="sim__saida" id="sim-saida" aria-live="polite">
-              <p class="sim__dica" data-estado="vazio">Digite o valor e veja quanto a sua conta pode cair. Sem cadastro.</p>
+              <p class="sim__dica" data-estado="vazio">Digite o valor e veja a sua conta encolher. Sem cadastro.</p>
 
               <div class="sim__resultado" data-estado="compensa" hidden>
-                <p class="sim__linha">Sua conta pode ficar entre</p>
-                <p class="sim__valor"><span data-campo="depois-min">—</span> <span class="sim__e">e</span> <span data-campo="depois-max">—</span><span class="sim__mes">/mês</span></p>
+                <div class="barras" aria-hidden="true">
+                  <div class="barra barra--hoje">
+                    <span class="barra__rotulo">Hoje</span>
+                    <span class="barra__trilho"><span class="barra__cheia"></span></span>
+                    <span class="barra__valor" data-campo="hoje">—</span>
+                  </div>
+                  <div class="barra barra--depois">
+                    <span class="barra__rotulo">Com energia solar</span>
+                    <span class="barra__trilho"><span class="barra__faixa"></span><span class="barra__cheia"></span></span>
+                    <span class="barra__valor"><span data-campo="depois-min">—</span> a <span data-campo="depois-max">—</span></span>
+                  </div>
+                </div>
+                <p class="sim__leitura">Sua conta pode ficar entre <strong data-texto="depois-min">—</strong> e <strong data-texto="depois-max">—</strong> por mês.</p>
                 <p class="sim__economia">Economia estimada de <strong data-campo="ano-min">—</strong> a <strong data-campo="ano-max">—</strong> por ano.</p>
                 <a class="botao" href="#pedido" data-cta data-leva-conta>Pedir minha simulação</a>
                 <p class="sim__nota">Estimativa com a faixa média dos nossos clientes (75% a 90%). A conta não zera: sempre resta a taxa mínima da distribuidora e o custo do fio. O número exato sai da simulação com a sua conta.</p>
@@ -65,14 +77,58 @@
           </form>
         </div>
 
-        <figure class="hero__cena cena" aria-hidden="true">
-          <img class="cena__poster" src="/cena-poster.webp" srcset="/cena-poster-800.webp 800w, /cena-poster.webp 1200w" sizes="(min-width: 960px) 620px, min(100vw - 40px, 460px)" alt="" width="1200" height="1200" fetchpriority="low">
+        <figure class="hero__cena cena" data-estado="vazio" aria-hidden="true">
+          <div class="ceu">
+            <span class="ceu__sol"></span>
+            <span class="ceu__nuvem ceu__nuvem--1"></span>
+            <span class="ceu__nuvem ceu__nuvem--2"></span>
+            <span class="ceu__nuvem ceu__nuvem--3"></span>
+          </div>
+          <img class="cena__img" data-para="vazio" src="/casa-vazio.webp" srcset="/casa-vazio-800.webp 800w, /casa-vazio.webp 1200w" sizes="(min-width: 960px) 640px, min(100vw - 40px, 520px)" alt="" width="1200" height="1200" fetchpriority="low">
+          <img class="cena__img" data-para="compensa" data-src="/casa-compensa-800.webp" alt="" width="800" height="800">
+          <img class="cena__img" data-para="nao-compensa" data-src="/casa-nao-800.webp" alt="" width="800" height="800">
           <div class="cena__canvas" id="cena"></div>
         </figure>
       </div>
     </section>
 
-    <!-- 2. Caso real -->
+    <!-- 2. A gente não some -->
+    <section class="secao confianca" id="confianca" aria-labelledby="confianca-titulo">
+      <div class="moldura">
+        <div class="confianca__cabeca revela">
+          <p class="sobretitulo">A pergunta que mais ouvimos</p>
+          <h2 id="confianca-titulo">“Como sei que vocês não vão sumir daqui a dois anos?”</h2>
+          <p class="cabeca__apoio">É justa. Na região, pelo menos três empresas fecharam deixando obra pela metade. A nossa resposta está nos números.</p>
+        </div>
+
+        <dl class="numeros">
+          <div class="numero revela">
+            <dd><span class="odo" data-odo="6">6</span></dd>
+            <dt>anos de empresa, com sede em Sorocaba</dt>
+          </div>
+          <div class="numero revela">
+            <dd><span class="odo" data-odo="412">412</span></dd>
+            <dt>sistemas residenciais instalados</dt>
+          </div>
+          <div class="numero revela">
+            <dd><span class="odo" data-odo="11">11</span></dd>
+            <dt>pessoas, todas com carteira assinada. Quem sobe no seu telhado é da Ravena.</dt>
+          </div>
+          <div class="numero revela">
+            <dd><span class="odo" data-odo="4,8">4,8</span><span class="estrela" aria-hidden="true">★</span></dd>
+            <dt>no Google, com 137 avaliações</dt>
+          </div>
+        </dl>
+
+        <ul class="garantias-lista">
+          <li class="revela"><strong>Não somos revenda.</strong> Projeto, homologação, instalação e acompanhamento são nossos. Não terceirizamos a obra.</li>
+          <li class="revela"><strong>Assistência técnica autorizada</strong> da marca de inversor que instalamos.</li>
+          <li class="revela"><strong>Depois de ligado, a gente acompanha.</strong> Olhamos a produção no primeiro ano e ligamos para você se ela cair fora do previsto.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 3. Caso real -->
     <section class="secao caso" id="caso" aria-labelledby="caso-titulo">
       <div class="moldura caso__grade">
         <div class="caso__texto revela">
@@ -82,65 +138,39 @@
           <p>Repare que não é zero. Sempre resta a taxa mínima da distribuidora e o custo do fio. Quem promete conta zerada está prometendo o que não existe.</p>
         </div>
 
-        <div class="contas revela" role="img" aria-label="Conta de luz antes: R$ 780 por mês. Depois: média de R$ 118 por mês nos últimos 12 meses, 85% menor.">
+        <div class="contas" id="contas" role="img" aria-label="Conta de luz antes: R$ 780 por mês. Depois: média de R$ 118 por mês nos últimos 12 meses, 85% menor.">
           <article class="conta conta--antes">
             <header class="conta__topo"><span>Conta de energia</span><span>Antes</span></header>
             <p class="conta__rotulo">Valor mensal</p>
-            <p class="conta__valor">R$&nbsp;780<small>,00</small></p>
+            <p class="conta__valor"><span class="conta__risco">R$&nbsp;780</span><small>,00</small></p>
             <div class="conta__linhas"><i></i><i></i><i></i></div>
           </article>
           <article class="conta conta--depois">
             <header class="conta__topo"><span>Conta de energia</span><span>Depois</span></header>
             <p class="conta__rotulo">Média dos últimos 12 meses</p>
-            <p class="conta__valor">R$&nbsp;118<small>,00</small></p>
+            <p class="conta__valor">R$&nbsp;<span class="odo" data-odo="118" data-odo-de="780">118</span><small>,00</small></p>
             <div class="conta__linhas"><i></i><i></i><i></i></div>
-            <span class="conta__selo">−85%</span>
           </article>
+          <div class="anel" aria-hidden="true">
+            <svg viewBox="0 0 120 120"><circle class="anel__fundo" cx="60" cy="60" r="52"/><circle class="anel__cheio" cx="60" cy="60" r="52" pathLength="100"/></svg>
+            <span class="anel__txt">−<span class="odo" data-odo="85" data-odo-de="0">85</span>%</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 3. A gente não some -->
-    <section class="secao confianca" id="confianca" aria-labelledby="confianca-titulo">
-      <div class="moldura">
-        <div class="cabeca revela">
-          <p class="sobretitulo">A pergunta que mais ouvimos</p>
-          <h2 id="confianca-titulo">“Como sei que vocês não vão sumir daqui a dois anos?”</h2>
-          <p class="cabeca__apoio">É justa. Na região, pelo menos três empresas fecharam deixando obra pela metade. A nossa resposta está nos números.</p>
-        </div>
-
-        <dl class="numeros revela">
-          <div class="numero">
-            <dt>Anos de empresa, com sede em Sorocaba</dt>
-            <dd>6</dd>
-          </div>
-          <div class="numero">
-            <dt>Sistemas residenciais instalados</dt>
-            <dd>412</dd>
-          </div>
-          <div class="numero">
-            <dt>Pessoas, todas com carteira assinada. Quem sobe no seu telhado é da Ravena.</dt>
-            <dd>11</dd>
-          </div>
-          <div class="numero">
-            <dt>Nota no Google, com 137 avaliações</dt>
-            <dd>4,8<span class="estrela" aria-hidden="true">★</span></dd>
-          </div>
-        </dl>
-
-        <ul class="garantias-lista revela">
-          <li><strong>Não somos revenda.</strong> Projeto, homologação, instalação e acompanhamento são nossos. Não terceirizamos a obra.</li>
-          <li><strong>Assistência técnica autorizada</strong> da marca de inversor que instalamos.</li>
-          <li><strong>Depois de ligado, a gente acompanha.</strong> Olhamos a produção no primeiro ano e ligamos para você se ela cair fora do previsto.</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- 4. O telhado -->
+    <!-- 4. O telhado, em vista explodida -->
     <section class="secao telhado" id="telhado" aria-labelledby="telhado-titulo">
       <div class="moldura telhado__grade">
-        <figure class="telhado__imagem revela">
-          <img src="/telhado-close.webp" srcset="/telhado-close-900.webp 900w, /telhado-close.webp 1200w" sizes="(min-width: 900px) 600px, 100vw" alt="Ilustração em 3D de painéis solares instalados sobre telhas de barro." width="1200" height="900" loading="lazy" decoding="async">
+        <figure class="explodida" id="explodida" data-estado="montado">
+          <img class="explodida__img" data-para="montado" src="/telhado-montado.webp" srcset="/telhado-montado-900.webp 900w, /telhado-montado.webp 1200w" sizes="(min-width: 900px) 640px, 100vw" alt="Ilustração em 3D de painéis solares sobre um telhado de barro." width="1200" height="900" loading="lazy" decoding="async">
+          <img class="explodida__img" data-para="separado" src="/telhado-separado.webp" srcset="/telhado-separado-900.webp 900w, /telhado-separado.webp 1200w" sizes="(min-width: 900px) 640px, 100vw" alt="" width="1200" height="900" loading="lazy" decoding="async">
+          <div class="explodida__canvas" id="cena-explodida"></div>
+          <ol class="rotulos" aria-label="Camadas da ilustração">
+            <li class="rotulo" data-rotulo="painel"><span>Painel solar</span></li>
+            <li class="rotulo" data-rotulo="estrutura"><span>Estrutura de fixação</span></li>
+            <li class="rotulo" data-rotulo="telhado"><span>Seu telhado de barro</span></li>
+          </ol>
           <figcaption>Ilustração</figcaption>
         </figure>
         <div class="telhado__texto revela">
@@ -148,6 +178,7 @@
           <h2 id="telhado-titulo">“Isso não vai estragar meu telhado?”</h2>
           <p>A instalação tem <strong>5 anos de garantia nossa</strong>, e ela cobre qualquer infiltração causada pela obra, inclusive em telha de barro.</p>
           <p>Antes de qualquer proposta, a visita técnica mede o seu telhado. Sem custo e sem compromisso.</p>
+          <button class="botao-linha" type="button" id="ver-camadas" aria-controls="explodida">Ver as camadas</button>
           <p class="nota-linha">Além disso: 25 anos de garantia de performance dos painéis e 10 anos do inversor, pelos fabricantes.</p>
         </div>
       </div>
@@ -161,33 +192,35 @@
           <h2 id="custo-titulo">Quanto custa e quando se paga.</h2>
         </div>
 
-        <div class="custo__grade revela">
-          <div class="custo__item">
+        <div class="custo__grade">
+          <div class="custo__item revela">
             <p class="custo__numero">R$&nbsp;14 mil <span>a</span> R$&nbsp;19 mil</p>
             <p>É o investimento para o tamanho típico de uma casa. A proposta vem em três tamanhos para você comparar.</p>
           </div>
-          <div class="custo__item">
+          <div class="custo__item revela">
             <p class="custo__numero">Entrada zero</p>
             <p>É possível, com os dois bancos com que trabalhamos. Na maioria dos casos, a parcela fica próxima do que você já paga de luz.</p>
           </div>
-          <div class="custo__item">
+          <div class="custo__item revela">
             <p class="custo__numero">3 a 4 anos</p>
             <p>É o tempo que o investimento tem levado para se pagar. O sistema dura mais de 25.</p>
           </div>
         </div>
 
         <figure class="linha-tempo revela">
-          <svg viewBox="0 0 640 96" role="img" aria-labelledby="lt-titulo">
+          <svg viewBox="0 0 640 100" role="img" aria-labelledby="lt-titulo">
             <title id="lt-titulo">Linha do tempo: o investimento se paga entre o terceiro e o quarto ano, e o sistema dura mais de 25 anos.</title>
-            <rect class="lt__vida" x="16" y="40" width="608" height="14" rx="7"/>
-            <rect class="lt__pagando" x="16" y="40" width="97" height="14" rx="7"/>
-            <rect class="lt__retorno" x="89" y="34" width="24" height="26" rx="5"/>
+            <rect class="lt__vida" x="16" y="44" width="608" height="14" rx="7"/>
+            <rect class="lt__ganho" x="113" y="44" width="511" height="14" rx="7"/>
+            <rect class="lt__pagando" x="16" y="44" width="97" height="14" rx="7"/>
+            <rect class="lt__retorno" x="89" y="38" width="24" height="26" rx="5"/>
             <g class="lt__marcas">
-              <line x1="16" y1="64" x2="16" y2="70"/><line x1="113" y1="64" x2="113" y2="70"/><line x1="624" y1="64" x2="624" y2="70"/>
+              <line x1="16" y1="68" x2="16" y2="74"/><line x1="113" y1="68" x2="113" y2="74"/><line x1="624" y1="68" x2="624" y2="74"/>
             </g>
-            <text class="lt__txt" x="16" y="88">hoje</text>
-            <text class="lt__txt lt__txt--forte" x="101" y="24" text-anchor="middle">se paga em 3–4 anos</text>
-            <text class="lt__txt" x="624" y="88" text-anchor="end">mais de 25 anos de sistema</text>
+            <text class="lt__txt" x="16" y="92">hoje</text>
+            <text class="lt__txt lt__txt--forte lt__marca" x="101" y="26" text-anchor="middle">se paga em 3–4 anos</text>
+            <text class="lt__txt lt__txt--ganho" x="368" y="34" text-anchor="middle">depois disso, a economia é sua</text>
+            <text class="lt__txt" x="624" y="92" text-anchor="end">mais de 25 anos de sistema</text>
           </svg>
         </figure>
 
@@ -232,7 +265,7 @@
 
         <div class="prazo revela">
           <div class="prazo__barra" aria-hidden="true">
-            <span class="prazo__cpfl">projeto e homologação na CPFL</span>
+            <span class="prazo__cpfl"><span>projeto e homologação na CPFL</span></span>
             <span class="prazo__obra">instalação</span>
           </div>
           <p><strong>45 a 60 dias</strong> da assinatura ao sistema ligado. A maior parte é projeto e homologação na CPFL, a etapa que não depende de nós. A instalação em si leva dois dias.</p>
@@ -264,71 +297,96 @@
       </div>
     </section>
 
-    <!-- 8. Pedido -->
+    <!-- 8. Pedido, com o mapa da região -->
     <section class="pedido" id="pedido" aria-labelledby="pedido-titulo">
       <div class="moldura pedido__grade">
         <div class="pedido__texto">
           <p class="sobretitulo sobretitulo--claro">Simulação</p>
           <h2 id="pedido-titulo">Peça a sua simulação.</h2>
           <p>Respondemos no seu WhatsApp no mesmo dia útil. Se puder, mande a foto ou o PDF da conta: a simulação sai mais precisa.</p>
-          <p class="pedido__regiao">Atendemos casas em Sorocaba, Votorantim, Itu, Salto e cidades num raio de 80&nbsp;km.</p>
+
+          <figure class="mapa revela" id="mapa">
+            <svg viewBox="0 0 400 400" role="img" aria-labelledby="mapa-titulo">
+              <title id="mapa-titulo">Mapa da área atendida: Sorocaba, onde fica a sede, Votorantim, Itu e Salto, dentro de um raio de 80 km.</title>
+              <defs>
+                <pattern id="pontos" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1"/></pattern>
+              </defs>
+              <rect class="mapa__grade" width="400" height="400" fill="url(#pontos)"/>
+              <circle class="mapa__area" cx="200" cy="200" r="170"/>
+              <circle class="mapa__raio" cx="200" cy="200" r="170" pathLength="100"/>
+              <g class="mapa__ligacoes">
+                <line x1="200" y1="200" x2="203" y2="210.1" pathLength="100"/>
+                <line x1="200" y1="200" x2="233.3" y2="144.2" pathLength="100"/>
+                <line x1="200" y1="200" x2="235.9" y2="129.2" pathLength="100"/>
+              </g>
+              <g class="mapa__cidade" data-cidade="Salto" transform="translate(235.9 129.2)"><circle r="5"/><text x="11" y="4">Salto</text></g>
+              <g class="mapa__cidade" data-cidade="Itu" transform="translate(233.3 144.2)"><circle r="5"/><text x="11" y="9">Itu</text></g>
+              <g class="mapa__cidade" data-cidade="Votorantim" transform="translate(203 210.1)"><circle r="5"/><text x="10" y="16">Votorantim</text></g>
+              <g class="mapa__cidade mapa__cidade--sede" data-cidade="Sorocaba" transform="translate(200 200)"><circle class="mapa__pulso" r="7"/><circle r="7"/><text x="-12" y="-6" text-anchor="end">Sorocaba</text><text class="mapa__sede" x="-12" y="9" text-anchor="end">sede</text></g>
+              <text class="mapa__legenda" x="200" y="392" text-anchor="middle">raio de 80 km</text>
+            </svg>
+            <figcaption>Atendemos casas em Sorocaba, Votorantim, Itu, Salto e cidades num raio de 80&nbsp;km.</figcaption>
+          </figure>
         </div>
 
-        <form class="form" id="form-pedido" action="/api/simulacao" method="post" enctype="multipart/form-data" novalidate>
-          <div class="form__campo">
-            <label for="f-nome">Nome</label>
-            <input id="f-nome" name="nome" autocomplete="name" required>
-            <p class="form__erro" id="erro-nome" hidden></p>
-          </div>
-          <div class="form__campo">
-            <label for="f-whatsapp">WhatsApp com DDD</label>
-            <input id="f-whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(15) 99123-4567" required>
-            <p class="form__erro" id="erro-whatsapp" hidden></p>
-          </div>
-          <div class="form__dupla">
+        <div class="pedido__lado">
+          <form class="form" id="form-pedido" action="/api/simulacao" method="post" enctype="multipart/form-data" novalidate>
             <div class="form__campo">
-              <label for="f-cidade">Cidade</label>
-              <select id="f-cidade" name="cidade" required>
-                <option value="" selected disabled>Escolha</option>
-                <option>Sorocaba</option>
-                <option>Votorantim</option>
-                <option>Itu</option>
-                <option>Salto</option>
-                <option>Outra cidade da região</option>
-              </select>
-              <p class="form__erro" id="erro-cidade" hidden></p>
+              <label for="f-nome">Nome</label>
+              <input id="f-nome" name="nome" autocomplete="name" required>
+              <p class="form__erro" id="erro-nome" hidden></p>
             </div>
             <div class="form__campo">
-              <label for="f-conta">Conta média por mês</label>
-              <div class="form__reais">
-                <span aria-hidden="true">R$</span>
-                <input id="f-conta" name="conta" inputmode="numeric" autocomplete="off" placeholder="0" maxlength="8" required>
+              <label for="f-whatsapp">WhatsApp com DDD</label>
+              <input id="f-whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(15) 99123-4567" required>
+              <p class="form__erro" id="erro-whatsapp" hidden></p>
+            </div>
+            <div class="form__dupla">
+              <div class="form__campo">
+                <label for="f-cidade">Cidade</label>
+                <select id="f-cidade" name="cidade" required>
+                  <option value="" selected disabled>Escolha</option>
+                  <option>Sorocaba</option>
+                  <option>Votorantim</option>
+                  <option>Itu</option>
+                  <option>Salto</option>
+                  <option>Outra cidade da região</option>
+                </select>
+                <p class="form__erro" id="erro-cidade" hidden></p>
               </div>
-              <p class="form__erro" id="erro-conta" hidden></p>
-              <p class="form__aviso" id="aviso-conta" hidden>Abaixo de R$&nbsp;450, o sistema não se paga em prazo razoável e nós mesmos desaconselhamos. Se quiser, envie mesmo assim.</p>
+              <div class="form__campo">
+                <label for="f-conta">Conta média por mês</label>
+                <div class="form__reais">
+                  <span aria-hidden="true">R$</span>
+                  <input id="f-conta" name="conta" inputmode="numeric" autocomplete="off" placeholder="0" maxlength="8" required>
+                </div>
+                <p class="form__erro" id="erro-conta" hidden></p>
+              </div>
             </div>
-          </div>
-          <div class="form__campo">
-            <span class="form__rotulo" id="rotulo-anexo">Foto ou PDF da conta <span class="opcional">opcional</span></span>
-            <label class="anexo" for="f-anexo">
-              <input id="f-anexo" name="anexo" type="file" accept="image/*,application/pdf" aria-labelledby="rotulo-anexo">
-              <span class="anexo__txt" data-anexo-nome>Escolher arquivo</span>
-            </label>
-            <p class="form__erro" id="erro-anexo" hidden></p>
-          </div>
-          <div class="form__isca" aria-hidden="true">
-            <label for="f-empresa">Empresa</label>
-            <input id="f-empresa" name="empresa" tabindex="-1" autocomplete="off">
-          </div>
+            <p class="form__aviso" id="aviso-conta" hidden>Abaixo de R$&nbsp;450, o sistema não se paga em prazo razoável e nós mesmos desaconselhamos. Se quiser, envie mesmo assim.</p>
+            <p class="form__aviso" id="aviso-cidade" hidden>Atendemos num raio de 80&nbsp;km de Sorocaba. Se a sua cidade estiver mais longe, infelizmente não conseguimos instalar.</p>
+            <div class="form__campo">
+              <span class="form__rotulo" id="rotulo-anexo">Foto ou PDF da conta <span class="opcional">opcional</span></span>
+              <label class="anexo" for="f-anexo">
+                <input id="f-anexo" name="anexo" type="file" accept="image/*,application/pdf" aria-labelledby="rotulo-anexo">
+                <span class="anexo__txt" data-anexo-nome>Escolher arquivo</span>
+              </label>
+              <p class="form__erro" id="erro-anexo" hidden></p>
+            </div>
+            <div class="form__isca" aria-hidden="true">
+              <label for="f-empresa">Empresa</label>
+              <input id="f-empresa" name="empresa" tabindex="-1" autocomplete="off">
+            </div>
 
-          <button class="botao botao--largo" type="submit">Pedir simulação</button>
-          <p class="form__geral" id="erro-geral" role="alert" hidden></p>
-        </form>
+            <button class="botao botao--largo" type="submit">Pedir simulação</button>
+            <p class="form__geral" id="erro-geral" role="alert" hidden></p>
+          </form>
 
-        <div class="enviado" id="enviado" tabindex="-1" hidden>
-          <p class="enviado__marca" aria-hidden="true">✓</p>
-          <h3>Pedido recebido<span data-enviado-nome></span>.</h3>
-          <p>A Ravena responde no seu WhatsApp no mesmo dia útil. Se ainda não mandou a foto da conta, pode mandar por lá.</p>
+          <div class="enviado" id="enviado" tabindex="-1" hidden>
+            <p class="enviado__marca" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></p>
+            <h3>Pedido recebido<span data-enviado-nome></span>.</h3>
+            <p>A Ravena responde no seu WhatsApp no mesmo dia útil. Se ainda não mandou a foto da conta, pode mandar por lá.</p>
+          </div>
         </div>
       </div>
     </section>

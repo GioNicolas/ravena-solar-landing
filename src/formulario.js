@@ -4,8 +4,7 @@ import { lerValor, CONTA_MINIMA } from './simulador.js';
 const $ = (id) => document.getElementById(id);
 
 export function preencherConta(conta) {
-  const el = $('f-conta');
-  el.value = conta.toLocaleString('pt-BR');
+  $('f-conta').value = conta.toLocaleString('pt-BR');
   avisoConta();
 }
 
@@ -36,19 +35,35 @@ function confirmar(nome) {
   caixa.focus();
 }
 
-export function iniciarFormulario() {
+export function iniciarFormulario({ aoEscolherCidade = () => {} } = {}) {
   const form = $('form-pedido');
   const whatsapp = $('f-whatsapp');
   const conta = $('f-conta');
+  const cidade = $('f-cidade');
   const anexo = $('f-anexo');
   const botao = form.querySelector('button[type="submit"]');
   const geral = $('erro-geral');
+
+  // O erro de um campo some assim que a pessoa mexe nele.
+  for (const nome of ['nome', 'whatsapp', 'cidade', 'conta', 'anexo']) {
+    const limpar = () => {
+      $(`erro-${nome}`).hidden = true;
+      $(`f-${nome}`).setAttribute('aria-invalid', 'false');
+      $(`f-${nome}`).removeAttribute('aria-describedby');
+    };
+    $(`f-${nome}`).addEventListener('input', limpar);
+    $(`f-${nome}`).addEventListener('change', limpar);
+  }
 
   whatsapp.addEventListener('input', () => (whatsapp.value = mascaraWhatsapp(whatsapp.value)));
   conta.addEventListener('input', () => {
     const v = lerValor(conta.value);
     conta.value = v ? v.toLocaleString('pt-BR') : '';
     avisoConta();
+  });
+  cidade.addEventListener('change', () => {
+    $('aviso-cidade').hidden = cidade.value !== 'Outra cidade da região';
+    aoEscolherCidade(cidade.value);
   });
   anexo.addEventListener('change', () => {
     const arquivo = anexo.files[0];
