@@ -424,12 +424,18 @@ html:not(.js) .marco__card { opacity: 1; transform: none; }
 .pedido { background: var(--navy); color: var(--papel); padding-block: var(--secao); position: relative; overflow: clip; }
 .pedido::before { content: ''; position: absolute; right: -15%; top: -30%; width: 60vw; height: 60vw; max-width: 760px; max-height: 760px; background: radial-gradient(closest-side, color-mix(in srgb, var(--sun) 20%, transparent), transparent); pointer-events: none; }
 .pedido__grade { position: relative; display: grid; gap: 48px; align-items: start; }
-@media (min-width: 960px) { .pedido__grade { grid-template-columns: 1fr 1.05fr; gap: 72px; } }
+@media (min-width: 960px) {
+  .pedido__grade { grid-template-columns: 1fr 1.05fr; gap: 72px; align-items: stretch; }
+  /* O mapa desce até a base do formulário: as duas colunas terminam juntas. */
+  .pedido__texto { display: flex; flex-direction: column; }
+  .pedido__texto .mapa { margin-top: auto; padding-top: 32px; }
+}
 .pedido h2 { font-size: clamp(2.3rem, 3vw + 1.1rem, 3.75rem); margin-bottom: 20px; }
 .pedido__texto > p { color: color-mix(in srgb, var(--papel) 80%, transparent); font-size: 1.125rem; max-width: 30em; }
-.mapa { margin-top: 36px; max-width: 440px; }
-.mapa svg { width: 100%; overflow: visible; }
-.mapa figcaption { margin-top: 10px; font-size: 0.9375rem; color: color-mix(in srgb, var(--papel) 70%, transparent); }
+.mapa { margin-top: 36px; display: grid; gap: 14px 24px; align-items: end; }
+@media (min-width: 560px) { .mapa { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); } }
+.mapa svg { width: 100%; max-width: 320px; overflow: visible; }
+.mapa figcaption { max-width: 16em; padding-bottom: 6px; font-size: 0.9375rem; color: color-mix(in srgb, var(--papel) 70%, transparent); }
 #pontos circle { fill: color-mix(in srgb, var(--papel) 18%, transparent); }
 .mapa__area { fill: color-mix(in srgb, var(--sun) 9%, transparent); transform-origin: 200px 200px; transition: transform 1.2s var(--ease) 0.2s, fill 0.4s; }
 .mapa__raio { fill: none; stroke: var(--sun); stroke-width: 2; stroke-dasharray: 100; stroke-dashoffset: 0; transition: stroke-dashoffset 1.6s var(--ease) 0.2s, stroke 0.3s, stroke-width 0.3s; }
@@ -437,15 +443,16 @@ html:not(.js) .marco__card { opacity: 1; transform: none; }
 .mapa.fora .mapa__area { fill: color-mix(in srgb, var(--ember) 16%, transparent); }
 .mapa__ligacoes line { stroke: color-mix(in srgb, var(--papel) 45%, transparent); stroke-width: 1.4; stroke-dasharray: 100; transition: stroke-dashoffset 0.9s var(--ease) 1.2s; }
 .mapa__cidade circle { fill: var(--papel); stroke: var(--navy); stroke-width: 2.5; transition: fill 0.3s, r 0.3s; }
-.mapa__cidade text { font-family: var(--fonte); font-size: 13px; font-weight: 600; fill: var(--papel); paint-order: stroke; stroke: var(--navy); stroke-width: 4px; stroke-linejoin: round; transition: fill 0.3s; }
+/* Tamanhos em unidades do SVG: o mapa aparece com ~300px, então 18 vira ~13px na tela. */
+.mapa__cidade text { font-family: var(--fonte); font-size: 18px; font-weight: 600; fill: var(--papel); paint-order: stroke; stroke: var(--navy); stroke-width: 4px; stroke-linejoin: round; transition: fill 0.3s; }
 .mapa__cidade--sede circle:not(.mapa__pulso) { fill: var(--sun); }
-.mapa__sede { font-size: 11px !important; font-weight: 500 !important; fill: color-mix(in srgb, var(--papel) 70%, transparent) !important; }
+.mapa__sede { font-size: 14px !important; font-weight: 500 !important; fill: color-mix(in srgb, var(--papel) 70%, transparent) !important; }
 .mapa__pulso { fill: none !important; stroke: var(--sun) !important; stroke-width: 2 !important; transform-origin: center; transform-box: fill-box; animation: pulso 2.4s var(--ease) 3 2.4s; opacity: 0; }
 @keyframes pulso { 0% { transform: scale(1); opacity: 0.9; } 100% { transform: scale(3.2); opacity: 0; } }
 .mapa__cidade { transition: opacity 0.5s, transform 0.6s var(--mola); transform-box: fill-box; }
 .mapa__cidade.ativa circle:not(.mapa__pulso) { fill: var(--sun); r: 7; }
 .mapa__cidade.ativa text { fill: var(--sun); }
-.mapa__legenda { font-family: var(--fonte); font-size: 12px; fill: var(--sun); font-weight: 600; letter-spacing: 0.04em; }
+.mapa__legenda { font-family: var(--fonte); font-size: 16px; fill: var(--sun); font-weight: 600; letter-spacing: 0.04em; }
 .js .mapa:not(.visto) .mapa__raio { stroke-dashoffset: 100; }
 .js .mapa:not(.visto) .mapa__area { transform: scale(0.2); }
 .js .mapa:not(.visto) .mapa__ligacoes line { stroke-dashoffset: 100; }

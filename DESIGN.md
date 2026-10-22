@@ -73,7 +73,7 @@ Neutros derivados, não da marca: papel `#FBF7F0`, papel 2 `#F3ECE0`, papel 3 `#
    - No desktop, os cartões alternam dos dois lados e se encaixam em zigue-zague; no celular, o trilho fica à esquerda.
 7. **Dúvidas.** Três `<details>`, sem JavaScript.
 8. **Pedido** (faixa marinho).
-   - À esquerda: texto e mapa da região em SVG.
+   - À esquerda: texto e mapa da região em SVG. No desktop, o mapa (até 300px, com a legenda ao lado) desce até a base do formulário, para as duas colunas terminarem juntas.
    - À direita: o formulário.
    - O mapa usa a posição real das cidades, convertida de latitude e longitude em km, com Sorocaba no centro:
      - Votorantim a 5 km;
