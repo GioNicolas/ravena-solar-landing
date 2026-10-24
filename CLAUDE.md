@@ -44,6 +44,7 @@ npm run dev       # servidor local
 npm test          # testes do simulador + checagem de números (precisa do build)
 npm run build     # gera dist/
 npm run stills    # renderiza poster, close e imagem OG a partir da cena (Edge headless)
+npm run verificar-envio  # prova o envio com rede ruim num navegador (precisa do build)
 ```
 
 ## Antes de dizer que terminou

@@ -96,3 +96,17 @@ O que foi conferido antes da entrega, como e com que resultado. Tudo aqui é rep
 
 - Envio real para a Ravena: o destino é de demonstração, porque o cliente não informou o dele (ver README).
 - Safari/iOS: não havia aparelho disponível. A verificação foi feita no motor Chromium (Edge).
+
+## 7. Envio resiliente do pedido (`src/envio.js`)
+
+Falha de rede, tempo esgotado, 408, 429 e 5xx são repetidos 3 vezes com espera crescente; 4xx é recusa e não repete. Sem rede, o pedido fica guardado no aparelho (`localStorage`) e sai sozinho ao reabrir a página ou quando a rede volta. O mesmo `idPedido` vai em todas as tentativas e a função da Vercel registra cada id uma vez só.
+
+- Automático: `tests/envio.test.js`, 13 testes. Com eles, `npm test` fecha em **32 testes, 0 falhas**, mais "23 números no texto, todos do brief".
+- No navegador: `npm run build && npm run verificar-envio` sobe o `dist/` com a função `api/simulacao.js` de verdade atrás de um interruptor de falha e dirige o Edge a 390px. **8 conferências, todas passam**:
+  - A. 503, 503 e depois ok: 3 tentativas, aviso "Tentando de novo (2 de 3)", 1 lead registrado, confirmação com o nome;
+  - B. o servidor registra o lead e a resposta se perde: 2 tentativas chegam, **1 lead registrado** (mesmo `idPedido`). Com a deduplicação desligada de propósito, esta conferência falha com 2 leads, então ela pega o defeito;
+  - C. sem rede: pedido guardado (fila = 1, nenhum lead registrado); ao voltar a rede, fila = 0 e 1 lead;
+  - D. servidor fora, página reaberta com o servidor de volta: o pedido guardado sai na abertura;
+  - E. 422: 1 tentativa só, nada guardado;
+  - nenhum erro de JavaScript na página.
+- Limites conhecidos: o anexo não é guardado na fila (o aviso na tela diz isso); a deduplicação do servidor vale por instância da função (melhor esforço), então o destino real deve deduplicar por `idPedido`; o destino real dos pedidos continua pendente (SPEC.md).

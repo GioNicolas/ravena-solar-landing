@@ -15,6 +15,11 @@ async function enviarPedido(pedido, anexo) {
   }));
 }
 
+// O cliente reenvia o mesmo pedido se a resposta se perde no caminho; o id evita
+// registrar o lead duas vezes. Vale por instância da função (melhor esforço): o
+// destino real deve também deduplicar por idPedido.
+const recentes = new Set();
+
 export async function POST(request) {
   const querJson = (request.headers.get('accept') ?? '').includes('application/json');
   const responder = (status, corpo, destino) =>
@@ -44,6 +49,13 @@ export async function POST(request) {
 
   if (!ok) return responder(422, { ok: false, erros }, '/?pedido=erro#pedido');
 
-  await enviarPedido(pedido, arquivo);
+  const id = String(form.get('idPedido') ?? '').slice(0, 64);
+  if (!id || !recentes.has(id)) {
+    await enviarPedido({ ...pedido, ...(id && { id }) }, arquivo);
+    if (id) {
+      recentes.add(id);
+      if (recentes.size > 500) recentes.delete(recentes.values().next().value);
+    }
+  }
   return responder(200, { ok: true }, `/?pedido=enviado&nome=${encodeURIComponent(pedido.nome.split(' ')[0])}#pedido`);
 }

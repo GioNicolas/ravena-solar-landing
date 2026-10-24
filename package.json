@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "test": "node --test \"tests/*.test.js\" && node scripts/checar-numeros.mjs",
     "stills": "node scripts/render-stills.mjs",
-    "capturas": "node scripts/capturas.mjs"
+    "capturas": "node scripts/capturas.mjs",
+    "verificar-envio": "node scripts/verificar-envio.mjs"
   },
   "engines": {
     "node": ">=20"

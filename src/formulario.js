@@ -1,5 +1,6 @@
 import { validarPedido, mascaraWhatsapp } from './validacao.js';
 import { lerValor, CONTA_MINIMA } from './simulador.js';
+import { criarEnvio } from './envio.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -43,6 +44,19 @@ export function iniciarFormulario({ aoEscolherCidade = () => {} } = {}) {
   const anexo = $('f-anexo');
   const botao = form.querySelector('button[type="submit"]');
   const geral = $('erro-geral');
+  const envio = criarEnvio({ url: form.action });
+
+  // Pedidos que ficaram guardados por falta de rede saem ao abrir a página e quando a rede volta.
+  let reenviando = false;
+  const reenviar = async () => {
+    if (reenviando || !envio.pendentes()) return;
+    reenviando = true;
+    const { enviados } = await envio.reenviarPendentes();
+    reenviando = false;
+    if (enviados.length) confirmar(enviados[0].split(' ')[0]);
+  };
+  addEventListener('online', reenviar);
+  reenviar();
 
   // O erro de um campo some assim que a pessoa mexe nele.
   for (const nome of ['nome', 'whatsapp', 'cidade', 'conta', 'anexo']) {
@@ -95,17 +109,26 @@ export function iniciarFormulario({ aoEscolherCidade = () => {} } = {}) {
     if (!ok) return;
 
     botao.setAttribute('aria-busy', 'true');
-    try {
-      const r = await fetch(form.action, { method: 'POST', body: dados, headers: { Accept: 'application/json' } });
-      const corpo = await r.json().catch(() => ({}));
-      if (r.ok && corpo.ok) return confirmar(pedido.nome.split(' ')[0]);
-      if (corpo.erros) mostrarErros(corpo.erros);
-      throw new Error('recusado');
-    } catch {
-      geral.hidden = false;
+    const campos = Object.fromEntries([...dados].filter(([, v]) => typeof v === 'string'));
+    const r = await envio.enviar(campos, arquivo, {
+      aoTentar: (n, total) => {
+        if (n === 1) return;
+        geral.hidden = false;
+        geral.textContent = `Conexão instável. Tentando de novo (${n} de ${total})…`;
+      },
+    });
+    botao.removeAttribute('aria-busy');
+    geral.hidden = true;
+    if (r.estado === 'enviado') return confirmar(pedido.nome.split(' ')[0]);
+    geral.hidden = false;
+    if (r.estado === 'recusado') {
+      mostrarErros(r.erros);
+      geral.textContent = 'Algo no pedido não passou na conferência. Revise os campos e tente de novo.';
+    } else if (r.estado === 'guardado') {
+      geral.textContent = 'Sem conexão com o nosso servidor. Guardamos o pedido neste aparelho e enviamos sozinhos quando a conexão voltar; mantenha esta página aberta.'
+        + (r.semAnexo ? ' A foto da conta não fica guardada: se quiser, envie de novo com ela depois.' : '');
+    } else {
       geral.textContent = 'Não conseguimos enviar agora. Seus dados continuam aqui; tente de novo em instantes.';
-    } finally {
-      botao.removeAttribute('aria-busy');
     }
   });
 }
