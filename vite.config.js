@@ -3,6 +3,7 @@ import { Readable } from 'node:stream';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import { POST } from './api/simulacao.js';
+import { GET } from './api/clima.js';
 
 const LOGO = new URL('./src/assets/logo.svg', import.meta.url);
 
@@ -42,9 +43,15 @@ function brand() {
   };
 }
 
-// Em dev e preview, /api/simulacao roda a mesma função que vai para a Vercel.
+// Em dev e preview, /api/simulacao e /api/clima rodam a mesma função que vai para a Vercel.
 function apiLocal() {
   const middleware = async (req, res, next) => {
+    if (req.url.startsWith('/api/clima')) {
+      const resposta = await GET();
+      res.statusCode = resposta.status;
+      resposta.headers.forEach((v, k) => res.setHeader(k, v));
+      return res.end(Buffer.from(await resposta.arrayBuffer()));
+    }
     if (!req.url.startsWith('/api/simulacao')) return next();
     if (req.method !== 'POST') {
       res.statusCode = 405;

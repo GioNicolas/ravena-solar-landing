@@ -67,6 +67,33 @@ sim.addEventListener('submit', (e) => {
   if (ultimoEstado === 'compensa') irParaPedido(lerValor(entrada.value));
 });
 
+// ---------- Clima de Sorocaba ----------
+// Decoração: qualquer falha deixa o texto de média que já está no HTML.
+const clima = document.getElementById('clima');
+const MEDIA = '4,8 kWh/m²';
+const SEP = '<span class="clima__sep" aria-hidden="true">•</span>';
+
+function mostrarClima(estado, html) {
+  clima.dataset.estado = estado;
+  clima.querySelector('.clima__texto').innerHTML = html;
+}
+
+async function carregarClima() {
+  try {
+    const r = await fetch('/api/clima', { signal: AbortSignal.timeout(5000) });
+    const d = await r.json();
+    if (!d.ok) return; // fallback: o HTML já diz a média
+    if (!d.isDay) {
+      mostrarClima('noite', `Noite em Sorocaba ${SEP} Painéis descansando após gerar o dia todo. Média da região: ${d.mediaDiaria ?? MEDIA}/dia`);
+    } else if (d.irradiacao > 0) {
+      mostrarClima('dia', `Sol em Sorocaba agora: <strong>${Math.round(d.irradiacao).toLocaleString('pt-BR')} W/m²</strong> ${SEP} Gerando a todo vapor`);
+    }
+  } catch {
+    // rede fora ou tempo esgotado: segue com o texto padrão
+  }
+}
+carregarClima();
+
 // ---------- Botões de ação ----------
 function irParaPedido(conta) {
   if (conta) preencherConta(conta);

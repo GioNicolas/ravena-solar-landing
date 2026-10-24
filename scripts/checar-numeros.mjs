@@ -10,7 +10,7 @@ const PERMITIDOS = new Map([
   ['412', 'linhas 15 e 46: sistemas instalados'],
   ['6', 'linha 13: seis anos'],
   ['11', 'linha 13: onze pessoas'],
-  ['4,8', 'linha 47: nota no Google'],
+  ['4,8', 'linha 47: nota no Google. ATENÇÃO: o card de clima também usa 4,8 kWh/m²/dia (média de Sorocaba), dado pedido pelo cliente da aula 2.2 e que NÃO está no brief; o checador não distingue os dois'],
   ['137', 'linha 47: avaliações'],
   ['780', 'linha 50: conta antes'],
   ['118', 'linha 50: conta média depois'],

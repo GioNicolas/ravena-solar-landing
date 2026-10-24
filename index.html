@@ -81,6 +81,8 @@
             </div>
             <noscript><a class="botao" href="#pedido">Pedir simulação</a></noscript>
           </form>
+          <!-- Já nasce com o texto de fallback: sem JavaScript ou sem clima, nada quebra nem pula -->
+          <p class="clima" id="clima" data-estado="fallback" aria-live="polite"><span class="clima__ponto" aria-hidden="true"></span><span class="clima__texto">Sorocaba tem média de 4,8 kWh/m²/dia de sol <span class="clima__sep" aria-hidden="true">•</span> Ideal para energia solar</span></p>
         </div>
 
         <figure class="hero__cena cena" data-estado="vazio" aria-hidden="true">
