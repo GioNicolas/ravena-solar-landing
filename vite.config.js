@@ -2,8 +2,8 @@ import { readFileSync } from 'node:fs';
 import { Readable } from 'node:stream';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
-import { POST } from './api/simulacao.js';
-import { GET } from './api/clima.js';
+import { POST, GET as GET_SIMULACAO } from './api/simulacao.js';
+import { GET as GET_CLIMA } from './api/clima.js';
 
 const LOGO = new URL('./src/assets/logo.svg', import.meta.url);
 
@@ -47,12 +47,18 @@ function brand() {
 function apiLocal() {
   const middleware = async (req, res, next) => {
     if (req.url.startsWith('/api/clima')) {
-      const resposta = await GET();
+      const resposta = await GET_CLIMA();
       res.statusCode = resposta.status;
       resposta.headers.forEach((v, k) => res.setHeader(k, v));
       return res.end(Buffer.from(await resposta.arrayBuffer()));
     }
     if (!req.url.startsWith('/api/simulacao')) return next();
+    if (req.method === 'GET') {
+      const resposta = await GET_SIMULACAO();
+      res.statusCode = resposta.status;
+      resposta.headers.forEach((v, k) => res.setHeader(k, v));
+      return res.end(Buffer.from(await resposta.arrayBuffer()));
+    }
     if (req.method !== 'POST') {
       res.statusCode = 405;
       return res.end();

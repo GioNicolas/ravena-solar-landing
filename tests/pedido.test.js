@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { validarPedido, mascaraWhatsapp, CIDADES } from '../src/validacao.js';
-import { POST } from '../api/simulacao.js';
+import { POST, GET } from '../api/simulacao.js';
 
 const valido = { nome: 'Maria Souza', whatsapp: '(15) 99123-4567', cidade: 'Itu', conta: '780' };
 
@@ -83,4 +83,15 @@ test('API descarta robô que preenche o campo invisível', async () => {
   } finally {
     console.log = log;
   }
+});
+
+test('API rota GET informa status da integração sem expor segredos', async () => {
+  const r = await GET();
+  assert.equal(r.status, 200);
+  const json = await r.json();
+  assert.equal(json.ok, true);
+  assert.equal(typeof json.supabase, 'string');
+  assert.equal(json.supabase === 'configurado' || json.supabase === 'ausente', true);
+  assert.equal('key' in json, false);
+  assert.equal('token' in json, false);
 });
