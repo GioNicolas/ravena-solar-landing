@@ -2,23 +2,60 @@
 // Com JavaScript, o navegador pede JSON; sem JavaScript, o formulário é enviado
 // direto e a resposta redireciona de volta para a página com a confirmação.
 
+try {
+  process.loadEnvFile?.('.env.local');
+} catch {}
+
 import { validarPedido } from '../src/validacao.js';
 
-// DESTINO DE DEMONSTRAÇÃO. O cliente ainda não informou para onde vão os pedidos
-// (SPEC.md, pendências). Hoje o pedido fica registrado no log da Vercel; trocar
-// aqui por e-mail ou CRM da Ravena quando o destino real chegar.
+// DESTINO DE DEMONSTRAÇÃO / INTEGRAÇÃO COM SUPABASE.
+// Se as variáveis SUPABASE_URL e SUPABASE_KEY estiverem configuradas no ambiente,
+// o pedido é encaminhado para o banco. Se não estiverem, fica registrado no log.
 async function enviarPedido(pedido, anexo) {
   console.log('[pedido de simulação]', JSON.stringify({
     ...pedido,
     anexo: anexo ? { nome: anexo.name, tipo: anexo.type, bytes: anexo.size } : null,
     recebidoEm: new Date().toISOString(),
   }));
+
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_KEY;
+  if (url && key) {
+    try {
+      await fetch(`${url}/rest/v1/clientes`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': key,
+          'Authorization': `Bearer ${key}`,
+          'Prefer': 'return=minimal',
+        },
+        body: JSON.stringify({
+          nome: pedido.nome,
+          whatsapp: pedido.whatsapp,
+          cidade: pedido.cidade,
+        }),
+        signal: AbortSignal.timeout(3000),
+      });
+    } catch (e) {
+      console.warn('[supabase] integração em background:', e?.message ?? '');
+    }
+  }
 }
 
 // O cliente reenvia o mesmo pedido se a resposta se perde no caminho; o id evita
 // registrar o lead duas vezes. Vale por instância da função (melhor esforço): o
 // destino real deve também deduplicar por idPedido.
 const recentes = new Set();
+
+export async function GET() {
+  const configurado = Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_KEY);
+  return Response.json({
+    ok: true,
+    servico: 'simulacao',
+    supabase: configurado ? 'configurado' : 'ausente',
+  });
+}
 
 export async function POST(request) {
   const querJson = (request.headers.get('accept') ?? '').includes('application/json');
